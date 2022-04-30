@@ -3,9 +3,12 @@ import Footer from "./footer";
 export default function Template() {
   return (
     <>
-      <div className="w-full h-[calc(100vh-80px)] bg-red-500">
+      <div className="w-full h-[calc(100vh-80px)]">
         <div>
-          <h1>Leon Emmanuel - DASHBOARD</h1>
+          <h1 className="text-3xl p-2 text-primaryd font-bold">
+            Leon Emmanuel - DASHBOARD
+          </h1>
+          <div className="w-full bg-primary h-[1px] my-2"></div>
         </div>
         <div className="flex">
           <div className="w-1/4 bg-yellow-300">
