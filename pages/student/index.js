@@ -1,3 +1,4 @@
+import Notification from "components/icons/notification";
 import AvailableCourses from "components/modals/AvailableCourses";
 import NewCourseModal from "components/modals/NewCourse";
 import Template from "components/navigation/template";
@@ -59,6 +60,18 @@ export default function Home() {
             show={showAvailableCourses}
             hide={() => setShowAvailableCourses(false)}
           />
+          <div>
+            <h2 className="text-primary flex items-center">
+              <span className="inline-block">
+                <Notification fill="fill-primaryd" />
+              </span>
+              <span>About class</span>
+            </h2>
+            <p className="font-bold">(Programming application)</p>
+            <p>No class tomorrow</p>
+            <p className="text-gray-700">May 1st, 2022</p>
+          </div>
+          <hr className="my-2" />
         </div>
       }
     />

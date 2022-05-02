@@ -1,6 +1,6 @@
 import Footer from "./footer";
 
-export default function Template({ title, main, right, left }) {
+export default function TemplateInbox({ title, main, left }) {
   return (
     <>
       <div className="w-full h-screen flex flex-col">
@@ -13,10 +13,9 @@ export default function Template({ title, main, right, left }) {
           )}
           <div className="w-full bg-primary h-[1px] my-2"></div>
         </div>
-        <div className="grow flex">
+        <div className="grow flex h-full">
           <div className="w-1/4">{left}</div>
           <div className="grow">{main}</div>
-          <div className="w-1/4">{right}</div>
         </div>
         <div className="w-full h-[80px]">
           <Footer />
