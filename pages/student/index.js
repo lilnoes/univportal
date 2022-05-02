@@ -1,11 +1,13 @@
+import AvailableCourses from "components/modals/AvailableCourses";
 import NewCourseModal from "components/modals/NewCourse";
 import Template from "components/navigation/template";
 import { useState } from "react";
 
 export default function Home() {
-  const [showCourse, setShowCourse] = useState(false);
+  const [showAvailableCourses, setShowAvailableCourses] = useState(false);
   return (
     <Template
+      title={<h1 className="text-3xl p-2 text-primaryd font-bold">Courses</h1>}
       left={
         <div className="p-3 text-secondaryd font-extrabold">
           <ul>
@@ -50,8 +52,13 @@ export default function Home() {
       }
       right={
         <div>
-          <button onClick={() => setShowCourse(true)}>New Course</button>
-          <NewCourseModal show={showCourse} hide={() => setShowCourse(false)} />
+          <button onClick={() => setShowAvailableCourses(true)}>
+            Available courses
+          </button>
+          <AvailableCourses
+            show={showAvailableCourses}
+            hide={() => setShowAvailableCourses(false)}
+          />
         </div>
       }
     />
