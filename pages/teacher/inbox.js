@@ -9,6 +9,7 @@ export default function Home() {
   const [showAnnouncement, setShowAnnouncement] = useState(false);
   return (
     <TemplateInbox
+      page="inbox"
       title={<h1 className="text-3xl p-2 text-primaryd font-bold">Messages</h1>}
       main={
         <div className="flex h-full">

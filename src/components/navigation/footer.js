@@ -6,8 +6,11 @@ import Logout from "components/icons/logout";
 import Person from "components/icons/person";
 import Courses from "components/modals/Courses";
 import { useState } from "react";
+import { useRouter } from "next/router";
 
-export default function Footer({ selected }) {
+export default function Footer({ base, selected }) {
+  const router = useRouter();
+  base = base ? base : "teacher";
   const [active, setActive] = useState(selected ?? "dashboard");
   const [showCourses, setShowCourses] = useState(false);
   return (
@@ -17,7 +20,7 @@ export default function Footer({ selected }) {
         Icon={Dashboard}
         display="Dashboard"
         setActive={() => {
-          setActive("dashboard");
+          router.replace(`/${base}`);
         }}
         selected={active == "dashboard"}
       />
@@ -26,7 +29,6 @@ export default function Footer({ selected }) {
         display="Courses"
         setActive={() => {
           setShowCourses(true);
-          setActive("courses");
         }}
         selected={active == "courses"}
       />
@@ -34,7 +36,7 @@ export default function Footer({ selected }) {
         Icon={Inbox}
         display="Inbox"
         setActive={() => {
-          setActive("inbox");
+          router.replace(`/${base}/inbox`);
         }}
         selected={active == "inbox"}
       />
@@ -42,7 +44,7 @@ export default function Footer({ selected }) {
         Icon={Person}
         display="Account"
         setActive={() => {
-          setActive("account");
+          router.replace(`/${base}/account`);
         }}
         selected={active == "account"}
       />

@@ -1,37 +1,46 @@
-export default function LeftMenu({}) {
+import Link from "next/link";
+
+export default function LeftMenu({ base }) {
+  base = base ? base : "teacher";
   return (
     <div className="p-3 text-secondaryd font-extrabold">
       <ul>
         <li className="mb-5">
-          <a className="underline my-5" href="$">
-            HOME
-          </a>
+          <Link href={`/${base}`}>
+            <a className="underline my-5">HOME</a>
+          </Link>
         </li>
         <li className="my-5">
-          <a className="underline my-5" href="$">
-            ANNOUNCEMENTS
-          </a>
+          <Link href={`/${base}/announcements`}>
+            <a className="underline my-5">ANNOUNCEMENTS</a>
+          </Link>
         </li>
         <li className="my-5">
-          <a className="underline my-5" href="$">
-            MESSAGES
-          </a>
+          <Link href={`/${base}/inbox`}>
+            <a className="underline my-5">MESSAGES</a>
+          </Link>
         </li>
         <li className="my-5">
-          <a className="underline my-5" href="$">
-            GRADES
-          </a>
+          <Link href={`/${base}/grades`}>
+            <a className="underline my-5" href="$">
+              GRADES
+            </a>
+          </Link>
         </li>
-        <li className="my-5">
-          <a className="underline my-5" href="$">
-            PEOPLE
-          </a>
-        </li>
-        <li className="my-5">
-          <a className="underline my-5" href="$">
-            QUIZZES
-          </a>
-        </li>
+        {base == "teacher" && (
+          <li className="my-5">
+            <Link href={`/${base}/people`}>
+              <a className="underline my-5">PEOPLE</a>
+            </Link>
+          </li>
+        )}
+        {base == "teacher" && (
+          <li className="my-5">
+            <Link href={`/${base}/quiz`}>
+              <a className="underline my-5">QUIZZES</a>
+            </Link>
+          </li>
+        )}
       </ul>
     </div>
   );

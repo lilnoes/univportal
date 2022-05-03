@@ -1,12 +1,14 @@
 import AcceptStudents from "components/modals/AcceptStudents";
 import NewAnnouncement from "components/modals/NewAnnouncement";
 import NewCourseModal from "components/modals/NewCourse";
+import NewQuiz from "components/modals/NewQuiz";
 import LeftMenu from "components/navigation/menu";
 import Template from "components/navigation/template";
 import { useState } from "react";
 
 export default function Home() {
   const [showAnnouncement, setShowAnnouncement] = useState(false);
+  const [showQuiz, setShowQuiz] = useState(false);
   const [showAcceptStudents, setShowAcceptStudents] = useState(false);
   return (
     <Template
@@ -33,14 +35,27 @@ export default function Home() {
       left={<LeftMenu />}
       right={
         <div>
-          <button className="block" onClick={() => setShowAnnouncement(true)}>
+          <button
+            className="my-3 block bg-primaryd p-2 text-white"
+            onClick={() => setShowAnnouncement(true)}
+          >
             New Announcement
           </button>
           <NewAnnouncement
             show={showAnnouncement}
             hide={() => setShowAnnouncement(false)}
           />
-          <button className="block" onClick={() => setShowAcceptStudents(true)}>
+          <button
+            className="my-3 block bg-primaryd p-2 text-white"
+            onClick={() => setShowQuiz(true)}
+          >
+            New Quiz
+          </button>
+          <NewQuiz show={showQuiz} hide={() => setShowQuiz(false)} />
+          <button
+            className="my-3 block bg-primaryd p-2 text-white"
+            onClick={() => setShowAcceptStudents(true)}
+          >
             Accept/Deny students
           </button>
           <AcceptStudents

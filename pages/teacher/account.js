@@ -8,6 +8,7 @@ export default function Home() {
   const [showAnnouncement, setShowAnnouncement] = useState(false);
   return (
     <Template
+      page={"account"}
       title={
         <h1 className="text-3xl p-2 text-primaryd font-bold">
           Leon Emmanuel ISHIMWE

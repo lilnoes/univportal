@@ -1,7 +1,11 @@
 import classNames from "classnames";
+import useOutsideClick from "hooks/utils/useOutsideClick";
+import { useRef } from "react";
 
 export default function NewQuiz({ show, hide }) {
   show = show ?? true;
+  const ref = useRef(null);
+  useOutsideClick(ref, hide);
   return (
     <div
       className={classNames(
@@ -9,8 +13,12 @@ export default function NewQuiz({ show, hide }) {
         "fixed w-full inset-0 flex justify-center bg-gray-400/70"
       )}
     >
-      <div className="w-[40%] mt-10 rounded-lg shadow-lg h-fit bg-white p-3 text-primaryd font-bold">
-        <h1 className="mb-5">New Quiz</h1>
+      <div
+        ref={ref}
+        className="w-[40%] mt-10 rounded-lg shadow-lg h-fit bg-white p-3 text-primaryd font-bold"
+      >
+        <h1 className="">New Quiz</h1>
+        <hr className="my-5" />
         <div className="mb-5">
           <label className="block">Name</label>
           <input

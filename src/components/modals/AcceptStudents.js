@@ -1,7 +1,11 @@
 import classNames from "classnames";
+import useOutsideClick from "hooks/utils/useOutsideClick";
+import { useRef } from "react";
 
 export default function AcceptStudents({ show, hide }) {
   show = show ?? true;
+  const ref = useRef(null);
+  useOutsideClick(ref, hide);
   return (
     <div
       className={classNames(
@@ -9,7 +13,10 @@ export default function AcceptStudents({ show, hide }) {
         "fixed w-full inset-0 flex justify-center bg-gray-400/70"
       )}
     >
-      <div className="w-[60%] mt-10 rounded-lg shadow-lg h-fit bg-white p-3 text-primaryd">
+      <div
+        ref={ref}
+        className="w-[60%] mt-10 rounded-lg shadow-lg h-fit bg-white p-3 text-primaryd"
+      >
         <h1 className="text-2xl text-secondaryd font-bold mb-5">
           Pending approvals
         </h1>
@@ -35,7 +42,9 @@ export default function AcceptStudents({ show, hide }) {
           </tr>
         </table>
 
-        <button onClick={hide}>Close</button>
+        <button className="text-red-700 mt-3" onClick={hide}>
+          Close
+        </button>
       </div>
     </div>
   );
