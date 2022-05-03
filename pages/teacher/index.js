@@ -44,13 +44,17 @@ export default function Home() {
       }
       main={
         <>
-          <h2>Recent Activities</h2>
-          <h2>Announcements</h2>
+          <h2 className="font-bold">Announcements</h2>
         </>
       }
       right={
         <div>
-          <button onClick={() => setShowCourse(true)}>New Course</button>
+          <button
+            className="p-2 bg-primaryd text-white"
+            onClick={() => setShowCourse(true)}
+          >
+            New Course
+          </button>
           <NewCourseModal show={showCourse} hide={() => setShowCourse(false)} />
         </div>
       }

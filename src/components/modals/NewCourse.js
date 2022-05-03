@@ -1,7 +1,11 @@
 import classNames from "classnames";
+import useOutsideClick from "hooks/utils/useOutsideClick";
+import { useRef } from "react";
 
 export default function NewCourseModal({ show, hide }) {
   show = show ?? true;
+  const ref = useRef();
+  useOutsideClick(ref, hide);
   return (
     <div
       className={classNames(
@@ -9,7 +13,10 @@ export default function NewCourseModal({ show, hide }) {
         "fixed w-full inset-0 flex justify-center bg-gray-400/70"
       )}
     >
-      <div className="w-[40%] mt-10 rounded-lg shadow-lg h-fit bg-white p-3 text-primaryd font-bold">
+      <div
+        ref={ref}
+        className="w-[40%] mt-10 rounded-lg shadow-lg h-fit bg-white p-3 text-primaryd font-bold"
+      >
         <div className="mb-5">
           <label className="block">Course Name</label>
           <input
@@ -26,10 +33,12 @@ export default function NewCourseModal({ show, hide }) {
         </div>
         <div className="mb-5">
           <label className="block">Year</label>
-          <input
-            className="w-full outline-none border-[1px] border-primaryl"
-            type="number"
-          />
+          <select className="w-full outline-none border-[1px] border-primaryl">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+          </select>
         </div>
         <div className="mb-5">
           <label className="block">Faculty</label>
