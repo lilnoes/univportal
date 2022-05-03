@@ -1,8 +1,11 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 export default function Home() {
-  const [username, setUsername] = useState("emma");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const router = useRouter();
   return (
     <div
       className="w-full h-screen flex justify-center"
@@ -15,10 +18,10 @@ export default function Home() {
           <div>
             <input
               className="my-3 p-1 rounded text-primaryd font-bold"
-              type="text"
+              type="email"
               placeholder="username"
-              value={username}
-              onChange={(val) => setUsername(val.target.value)}
+              value={email}
+              onChange={(val) => setEmail(val.target.value)}
             />
           </div>
           <div>
@@ -30,7 +33,13 @@ export default function Home() {
           </div>
 
           <div>
-            <button className="bg-textp text-secondary font-extrabold p-2 rounded-lg">
+            <button
+              onClick={() => {
+                if (email.includes("ogr")) router.replace("/student");
+                else router.replace("/teacher");
+              }}
+              className="bg-textp text-secondary font-extrabold p-2 rounded-lg"
+            >
               LOGIN
             </button>
           </div>

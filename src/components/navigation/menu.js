@@ -22,9 +22,7 @@ export default function LeftMenu({ base }) {
         </li>
         <li className="my-5">
           <Link href={`/${base}/grades`}>
-            <a className="underline my-5" href="$">
-              GRADES
-            </a>
+            <a className="underline my-5">GRADES</a>
           </Link>
         </li>
         {base == "teacher" && (

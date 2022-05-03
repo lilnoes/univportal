@@ -15,7 +15,11 @@ export default function Footer({ base, selected }) {
   const [showCourses, setShowCourses] = useState(false);
   return (
     <div className="flex w-full h-full">
-      <Courses show={showCourses} hide={() => setShowCourses(false)} />
+      <Courses
+        base={base}
+        show={showCourses}
+        hide={() => setShowCourses(false)}
+      />
       <MenuItem
         Icon={Dashboard}
         display="Dashboard"
@@ -52,7 +56,7 @@ export default function Footer({ base, selected }) {
         Icon={Logout}
         display="Logout"
         setActive={() => {
-          setActive("logout");
+          router.replace(`/account/login`);
         }}
         selected={active == "logout"}
       />

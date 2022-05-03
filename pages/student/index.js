@@ -3,16 +3,43 @@ import AvailableCourses from "components/modals/AvailableCourses";
 import NewCourseModal from "components/modals/NewCourse";
 import LeftMenu from "components/navigation/menu";
 import Template from "components/navigation/template";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 export default function Home() {
+  const router = useRouter();
   const [showAvailableCourses, setShowAvailableCourses] = useState(false);
   return (
     <Template
       base="student"
       title={<h1 className="text-3xl p-2 text-primaryd font-bold">Courses</h1>}
       left={<LeftMenu base={"student"} />}
-      main={<></>}
+      main={
+        <>
+          <div className="w-full flex">
+            <div
+              onClick={() => router.push(`/student/course/1`)}
+              className="mb-3 w-full p-5 cursor-pointer"
+            >
+              <div className="shadow-xl p-2 rounded-xl flex justify-center items-center flex-col">
+                <h2 className="text-[50px] text-secondaryd">P</h2>
+                <hr className="my-3" />
+                <h2 className="text-secondary">Programming Application</h2>
+              </div>
+            </div>
+            <div
+              onClick={() => router.push(`/student/course/1`)}
+              className="mb-3 w-full p-5 cursor-pointer"
+            >
+              <div className="shadow-xl p-2 rounded-xl flex justify-center items-center flex-col">
+                <h2 className="text-[50px] text-secondaryd">W</h2>
+                <hr className="my-3" />
+                <h2 className="text-secondary">Web Programlama</h2>
+              </div>
+            </div>
+          </div>
+        </>
+      }
       right={
         <div>
           <button
