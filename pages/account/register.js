@@ -6,20 +6,61 @@ export default function Home() {
       className="w-full h-screen flex justify-center"
       style={{ backgroundImage: "url('/images/back.jpg')" }}
     >
-      <div className="p-10 h-fit mt-10 bg-primary flex justify-center">
-        <div className="w-full text-textp flex flex-col justify-start items-center mb-3">
+      <div className="py-2 px-10 rounded-2xl h-fit mt-10 bg-primary flex justify-center">
+        <div className="w-full text-textp flex flex-col justify-start items-center">
           <h1 className="font-bold mb-5 text-2xl">BETTER CANVAS</h1>
           <h1 className="font-bold">CREATE USER</h1>
-          <div>
+          <div className="my-2">
+            <label className="block text-sm">First Name</label>
             <input
-              className="my-3 p-1 rounded"
+              className="p-1 rounded text-primaryd font-bold"
               type="text"
-              placeholder="username"
+              placeholder="First name"
             />
           </div>
-          <div>
+          <div className="my-2">
+            <label className="block text-sm">Last Name</label>
             <input
-              className="my-3 p-1 rounded"
+              className="p-1 rounded text-primaryd font-bold"
+              type="text"
+              placeholder="Last name"
+            />
+          </div>
+          <div className="my-2">
+            <label className="block text-sm">Email</label>
+            <input
+              className="p-1 rounded text-primaryd font-bold"
+              type="email"
+              placeholder="Email"
+            />
+          </div>
+          <div className="my-2 w-full">
+            <label className="block text-sm">Country</label>
+            <select className="p-1 rounded text-primaryd font-bold">
+              <option>Rwanda</option>
+              <option>Turkey</option>
+              <option>Angola</option>
+            </select>
+          </div>
+          <div className="my-2 w-full">
+            <label className="block text-sm">Department</label>
+            <select className="p-1 rounded text-primaryd font-bold">
+              <option>Computer engineering</option>
+              <option>Chemical engineering</option>
+            </select>
+          </div>
+          <div className="my-2 w-full">
+            <label className="block text-sm">Year</label>
+            <select className="p-1 rounded text-primaryd font-bold">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+            </select>
+          </div>
+          <div className="my-2">
+            <input
+              className="p-1 rounded text-primaryd font-bold"
               type="password"
               placeholder="password"
             />

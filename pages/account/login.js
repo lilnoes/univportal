@@ -1,6 +1,8 @@
 import Link from "next/link";
+import { useState } from "react";
 
 export default function Home() {
+  const [username, setUsername] = useState("emma");
   return (
     <div
       className="w-full h-screen flex justify-center"
@@ -12,14 +14,16 @@ export default function Home() {
           <h1 className="font-bold">USER LOGIN</h1>
           <div>
             <input
-              className="my-3 p-1 rounded"
+              className="my-3 p-1 rounded text-primaryd font-bold"
               type="text"
               placeholder="username"
+              value={username}
+              onChange={(val) => setUsername(val.target.value)}
             />
           </div>
           <div>
             <input
-              className="my-3 p-1 rounded"
+              className="my-3 p-1 rounded text-primaryd font-bold"
               type="password"
               placeholder="password"
             />
