@@ -8,7 +8,7 @@ export default function Template({ title, main, right, left, page, base }) {
           {title}
           {!title && (
             <h1 className="text-3xl p-2 text-primaryd font-bold">
-              Leon Emmanuel - DASHBOARD
+              Leon Emmanuel ISHIMWE- DASHBOARD
             </h1>
           )}
           <div className="w-full bg-primary h-[1px] my-2"></div>
