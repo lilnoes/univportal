@@ -20,5 +20,7 @@ export async function getCoursesCollection() {
 
 async function initDb() {
   await client.connect();
+  const usersCollection = await getCoursesCollection();
+  await usersCollection.createIndex({ email: 1 }, { unique: true });
   //initialise indices
 }
