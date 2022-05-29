@@ -1,6 +1,21 @@
+import fetcher from "lib/fetcher";
 import Link from "next/link";
+import { useState } from "react";
 
 export default function Home() {
+  const departments = [
+    "Computer engineering",
+    "Chemical engineering",
+    "Electronics",
+  ];
+  const countries = ["Rwanda", "Turkey", "USA"];
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [country, setCountry] = useState(countries[0]);
+  const [department, setDepartment] = useState(departments[0]);
+  const [year, setYear] = useState(1);
+  const [password, setPassword] = useState("");
   return (
     <div
       className="w-full h-screen flex justify-center"
@@ -16,6 +31,8 @@ export default function Home() {
               className="p-1 rounded text-primaryd font-bold"
               type="text"
               placeholder="First name"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
             />
           </div>
           <div className="my-2">
@@ -24,6 +41,8 @@ export default function Home() {
               className="p-1 rounded text-primaryd font-bold"
               type="text"
               placeholder="Last name"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
             />
           </div>
           <div className="my-2">
@@ -32,30 +51,44 @@ export default function Home() {
               className="p-1 rounded text-primaryd font-bold"
               type="email"
               placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div className="my-2 w-full">
             <label className="block text-sm">Country</label>
-            <select className="p-1 rounded text-primaryd font-bold">
-              <option>Rwanda</option>
-              <option>Turkey</option>
-              <option>Angola</option>
+            <select
+              className="p-1 rounded text-primaryd font-bold"
+              value={country}
+              onChange={(e) => setCountry(e.target.value)}
+            >
+              {countries.map((country) => (
+                <option key={country}>{country}</option>
+              ))}
             </select>
           </div>
           <div className="my-2 w-full">
             <label className="block text-sm">Department</label>
-            <select className="p-1 rounded text-primaryd font-bold">
-              <option>Computer engineering</option>
-              <option>Chemical engineering</option>
+            <select
+              className="p-1 rounded text-primaryd font-bold"
+              value={department}
+              onChange={(e) => setDepartment(e.target.value)}
+            >
+              {departments.map((department) => (
+                <option key={department}>{department}</option>
+              ))}
             </select>
           </div>
           <div className="my-2 w-full">
             <label className="block text-sm">Year</label>
-            <select className="p-1 rounded text-primaryd font-bold">
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
+            <select
+              className="p-1 rounded text-primaryd font-bold"
+              value={year}
+              onChange={(e) => setYear(e.target.value)}
+            >
+              {[1, 2, 3, 4].map((year) => (
+                <option key={year}>{year}</option>
+              ))}
             </select>
           </div>
           <div className="my-2">
@@ -63,11 +96,27 @@ export default function Home() {
               className="p-1 rounded text-primaryd font-bold"
               type="password"
               placeholder="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
 
           <div>
-            <button className="bg-textp text-secondary font-extrabold p-2 rounded-lg">
+            <button
+              onClick={async () => {
+                const data = await fetcher("/api/user/register", {
+                  firstName,
+                  lastName,
+                  email,
+                  country,
+                  department,
+                  year,
+                  password,
+                });
+                console.log("data register", data);
+              }}
+              className="bg-textp text-secondary font-extrabold p-2 rounded-lg"
+            >
               REGISTER
             </button>
           </div>
