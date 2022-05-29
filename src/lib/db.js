@@ -18,6 +18,12 @@ export async function getCoursesCollection() {
   return db.collection("courses");
 }
 
+export async function getAnnouncementsCollection() {
+  if (init) await initDb();
+  const db = client.db(dbName);
+  return db.collection("announcements");
+}
+
 async function initDb() {
   await client.connect();
   init = false;

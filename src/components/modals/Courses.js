@@ -1,4 +1,5 @@
 import classNames from "classnames";
+import useCourses from "hooks/courses/useCourses";
 import useOutsideClick from "hooks/utils/useOutsideClick";
 import Link from "next/link";
 import { useRef } from "react";
@@ -7,6 +8,8 @@ export default function Courses({ base, show, hide }) {
   base = base ? base : "teacher";
   show = show ?? true;
   const ref = useRef();
+  const { courses } = useCourses();
+  console.log("courses", courses);
   useOutsideClick(ref, hide);
   return (
     <div
@@ -19,18 +22,17 @@ export default function Courses({ base, show, hide }) {
         ref={ref}
         className="w-[40%] h-full bg-primaryd p-3 text-primaryd font-bold"
       >
-        <div className="my-5 p-5 shadow-lg bg-white rounded-xl">
-          <Link href={`/${base}/course/1`}>
-            <a className="underline">Programming Application</a>
-          </Link>
-          <h2>PAP</h2>
-        </div>
-        <div className="my-5 p-5 shadow-lg bg-white rounded-xl">
-          <Link href={`/${base}/course/1`}>
-            <a className="underline">Web Programlama</a>
-          </Link>
-          <h2>PAP</h2>
-        </div>
+        {courses?.map((course) => (
+          <div
+            key={course._id}
+            className="my-5 p-5 shadow-lg bg-white rounded-xl"
+          >
+            <Link href={`/${base}/course/${course.shortName}`}>
+              <a className="underline">{course.name}</a>
+            </Link>
+            <h2>{course.shortName}</h2>
+          </div>
+        ))}
       </div>
     </div>
   );

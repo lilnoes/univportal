@@ -1,8 +1,16 @@
 export const ironOptions = {
-    cookieName: "univportalname",
-    password: "ishimweLeon^&@LEonhjjhj%rfhh$3e",
-    // secure: true should be used in production (HTTPS) but can't be used in development (HTTP)
-    cookieOptions: {
-      secure: process.env.NODE_ENV === "production",
-    },
-  };
+  cookieName: "univportalname",
+  password: "ishimweLeon^&@LEonhjjhj%rfhh$3e",
+  // secure: true should be used in production (HTTPS) but can't be used in development (HTTP)
+  cookieOptions: {
+    secure: process.env.NODE_ENV === "production",
+  },
+};
+
+export const departments = [
+  "Computer engineering",
+  "Chemical engineering",
+  "Electronics",
+];
+
+export const years = [1, 2, 3, 4];

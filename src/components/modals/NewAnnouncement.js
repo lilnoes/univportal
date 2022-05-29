@@ -1,11 +1,14 @@
 import classNames from "classnames";
 import useOutsideClick from "hooks/utils/useOutsideClick";
-import { useRef } from "react";
+import fetcher from "lib/fetcher";
+import { useRef, useState } from "react";
 
-export default function NewAnnouncement({ show, hide }) {
+export default function NewAnnouncement({ course, show, hide }) {
   show = show ?? true;
   const ref = useRef(null);
   useOutsideClick(ref, hide);
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
   return (
     <div
       className={classNames(
@@ -24,14 +27,30 @@ export default function NewAnnouncement({ show, hide }) {
           <input
             className="w-full outline-none border-[1px] border-primaryl"
             type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
           />
         </div>
         <div className="mb-5">
           <label className="block">Content</label>
-          <textarea className="w-full outline-none border-[1px] border-primaryl h-[100px]" />
+          <textarea
+            className="w-full outline-none border-[1px] border-primaryl h-[100px]"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+          />
         </div>
         <div className="flex">
-          <button className="grow bg-primaryd text-white text-2xl p-2 rounded-lg">
+          <button
+            className="grow bg-primaryd text-white text-2xl p-2 rounded-lg"
+            onClick={async () => {
+              const json = await fetcher("/api/course/announcement/create", {
+                title,
+                content,
+                course,
+              });
+              console.log("course", json);
+            }}
+          >
             Create
           </button>
           <button onClick={hide} className="grow text-red-700">

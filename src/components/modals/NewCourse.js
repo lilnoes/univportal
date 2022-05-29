@@ -1,10 +1,19 @@
 import classNames from "classnames";
 import useOutsideClick from "hooks/utils/useOutsideClick";
-import { useRef } from "react";
+import { departments, years } from "lib/config";
+import fetcher from "lib/fetcher";
+import { useRef, useState } from "react";
+import { mutate } from "swr";
 
 export default function NewCourseModal({ show, hide }) {
   show = show ?? true;
   const ref = useRef();
+  const [name, setName] = useState("");
+  const [shortName, setShortName] = useState("");
+  const [year, setYear] = useState(1);
+  const [department, setDepartment] = useState(departments[0]);
+  const [description, setDescription] = useState("");
+  const [requirements, setRequirements] = useState("");
   useOutsideClick(ref, hide);
   return (
     <div
@@ -22,6 +31,8 @@ export default function NewCourseModal({ show, hide }) {
           <input
             className="w-full outline-none border-[1px] border-primaryl"
             type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
         </div>
         <div className="mb-5">
@@ -29,35 +40,66 @@ export default function NewCourseModal({ show, hide }) {
           <input
             className="w-full outline-none border-[1px] border-primaryl"
             type="text"
+            value={shortName}
+            onChange={(e) => setShortName(e.target.value)}
           />
         </div>
         <div className="mb-5">
           <label className="block">Year</label>
-          <select className="w-full outline-none border-[1px] border-primaryl">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
+          <select
+            className="w-full outline-none border-[1px] border-primaryl"
+            value={year}
+            onChange={(e) => setYear(e.target.value)}
+          >
+            {years.map((year) => (
+              <option key={year}>{year}</option>
+            ))}
           </select>
         </div>
         <div className="mb-5">
           <label className="block">Department</label>
-          <select className="w-full outline-none border-[1px] border-primaryl">
-            <option>Computer Engineering</option>
-            <option>Electronics Engineering</option>
-            <option>Chemical Engineering</option>
+          <select
+            className="w-full outline-none border-[1px] border-primaryl"
+            value={department}
+            onChange={(e) => setDepartment(e.target.value)}
+          >
+            {departments.map((department) => (
+              <option key={department}>{department}</option>
+            ))}
           </select>
         </div>
         <div className="mb-5">
           <label className="block">Description</label>
-          <textarea className="w-full outline-none border-[1px] border-primaryl" />
+          <textarea
+            className="w-full outline-none border-[1px] border-primaryl"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
         </div>
         <div className="mb-5">
           <label className="block">Requirements</label>
-          <textarea className="w-full outline-none border-[1px] border-primaryl" />
+          <textarea
+            className="w-full outline-none border-[1px] border-primaryl"
+            value={requirements}
+            onChange={(e) => setRequirements(e.target.value)}
+          />
         </div>
         <div className="flex">
-          <button className="grow bg-primaryd text-white text-2xl p-2 rounded-lg">
+          <button
+            onClick={async () => {
+              const json = await fetcher("/api/course/create", {
+                name,
+                shortName,
+                year,
+                department,
+                description,
+                requirements,
+              });
+              console.log("course", json);
+              await mutate("/api/course/list");
+            }}
+            className="grow bg-primaryd text-white text-2xl p-2 rounded-lg"
+          >
             Submit
           </button>
           <button onClick={hide} className="grow text-red-700">
