@@ -1,8 +1,11 @@
 import fetcher from "lib/fetcher";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 export default function Home() {
+  const router = useRouter();
+
   const departments = [
     "Computer engineering",
     "Chemical engineering",
@@ -129,7 +132,7 @@ export default function Home() {
           <div>
             <button
               onClick={async () => {
-                const data = await fetcher("/api/user/register", {
+                const data = await fetcher("/api/account/register", {
                   firstName,
                   lastName,
                   email,
@@ -140,6 +143,7 @@ export default function Home() {
                   password,
                 });
                 console.log("data register", data);
+                if (data.error == "") router.replace("/account/login");
               }}
               className="bg-textp text-secondary font-extrabold p-2 rounded-lg"
             >

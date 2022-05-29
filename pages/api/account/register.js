@@ -2,7 +2,7 @@
 
 import { getUsersCollection } from "lib/db";
 import { withSessionRoute } from "lib/withSession";
-import { createHash } from "crypto";
+import sha1 from "sha1";
 
 export default withSessionRoute(async (req, res) => {
   const {
@@ -17,7 +17,7 @@ export default withSessionRoute(async (req, res) => {
   } = req.body;
   if (!email) return res.json({ error: "invalid email" });
   const type = email.endsWith("@iuc.edu.tr") ? "teacher" : "student";
-  const hash = createHash("md5").update(password).digest("hex");
+  const hash = sha1(password);
   const usersCollection = await getUsersCollection();
   try {
     await usersCollection.insertOne({

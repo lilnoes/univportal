@@ -1,11 +1,12 @@
+import fetcher from "lib/fetcher";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
 export default function Home() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const router = useRouter();
   return (
     <div
       className="w-full h-screen flex justify-center"
@@ -19,7 +20,7 @@ export default function Home() {
             <input
               className="my-3 p-1 rounded text-primaryd font-bold"
               type="email"
-              placeholder="username"
+              placeholder="email"
               value={email}
               onChange={(val) => setEmail(val.target.value)}
             />
@@ -29,14 +30,23 @@ export default function Home() {
               className="my-3 p-1 rounded text-primaryd font-bold"
               type="password"
               placeholder="password"
+              value={password}
+              onChange={(val) => setPassword(val.target.value)}
             />
           </div>
 
           <div>
             <button
-              onClick={() => {
-                if (email.includes("ogr")) router.replace("/student");
-                else router.replace("/teacher");
+              onClick={async () => {
+                const json = await fetcher("/api/account/login", {
+                  email,
+                  password,
+                });
+                const user = json?.data?.user;
+                console.log(json);
+                if (!user) return;
+                if (user.type == "teacher") router.push("/teacher");
+                if (user.type == "student") router.push("/student");
               }}
               className="bg-textp text-secondary font-extrabold p-2 rounded-lg"
             >

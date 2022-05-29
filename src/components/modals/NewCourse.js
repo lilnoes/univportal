@@ -41,7 +41,7 @@ export default function NewCourseModal({ show, hide }) {
           </select>
         </div>
         <div className="mb-5">
-          <label className="block">Faculty</label>
+          <label className="block">Department</label>
           <select className="w-full outline-none border-[1px] border-primaryl">
             <option>Computer Engineering</option>
             <option>Electronics Engineering</option>

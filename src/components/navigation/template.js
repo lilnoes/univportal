@@ -1,6 +1,10 @@
+import useUser from "hooks/user/useUser";
 import Footer from "./footer";
 
 export default function Template({ title, main, right, left, page, base }) {
+  const { user } = useUser();
+  if (!user) return <div></div>;
+  console.log("current user", user);
   return (
     <>
       <div className="w-full h-screen flex flex-col">
@@ -8,7 +12,8 @@ export default function Template({ title, main, right, left, page, base }) {
           {title}
           {!title && (
             <h1 className="text-3xl p-2 text-primaryd font-bold">
-              Leon Emmanuel ISHIMWE- DASHBOARD
+              {user.firstName.toUpperCase()} {user.lastName.toUpperCase()} -
+              DASHBOARD
             </h1>
           )}
           <div className="w-full bg-primary h-[1px] my-2"></div>
