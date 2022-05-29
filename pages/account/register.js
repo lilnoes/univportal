@@ -25,6 +25,10 @@ export default function Home() {
     else if (email.trim().endsWith("@iuc.edu.tr")) setType("teacher");
   }, [email]);
 
+  useEffect(() => {
+    if (type == "student") setTitle("student");
+  }, [type]);
+
   return (
     <div
       className="w-full h-screen flex justify-center"
@@ -129,6 +133,7 @@ export default function Home() {
                   firstName,
                   lastName,
                   email,
+                  title,
                   country,
                   department,
                   year,
