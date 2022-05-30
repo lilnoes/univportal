@@ -6,6 +6,7 @@ import {
   getUsersCollection,
 } from "lib/db";
 import { withSessionRoute } from "lib/withSession";
+import { ObjectId } from "mongodb";
 import sha1 from "sha1";
 
 export default withSessionRoute(async (req, res) => {
@@ -15,9 +16,10 @@ export default withSessionRoute(async (req, res) => {
   try {
     await announcementsCollection.insertOne({
       creator: user._id,
-      course,
+      course: ObjectId(course),
       title,
       content,
+      date: new Date(),
     });
   } catch (e) {
     return res.send({

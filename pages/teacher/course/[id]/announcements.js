@@ -3,18 +3,21 @@ import NewCourseModal from "components/modals/NewCourse";
 import LeftMenu from "components/navigation/menu";
 import Template from "components/navigation/template";
 import useAnnouncements from "hooks/courses/useAnnouncements";
+import { getCoursesCollection } from "lib/db";
+import { withSessionSsr } from "lib/withSession";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-export default function Home() {
+export default function Home({ course }) {
   const [showAnnouncement, setShowAnnouncement] = useState(false);
   const router = useRouter();
-  const { announcements } = useAnnouncements(router?.query?.id);
+  const { announcements } = useAnnouncements(course?.shortName);
+  if (!course) return <div></div>;
   return (
     <Template
       title={
         <h1 className="text-3xl p-2 text-primaryd font-bold">
-          PROGRAMMING APPLICATION - Announcements
+          {course.name.toUpperCase()} - Announcements
         </h1>
       }
       main={
@@ -28,7 +31,7 @@ export default function Home() {
           ))}
         </div>
       }
-      left={<LeftMenu />}
+      left={<LeftMenu base={`teacher/course/${course.shortName}`}/>}
       right={
         <div className="px-1">
           <button
@@ -38,6 +41,7 @@ export default function Home() {
             New Announcement
           </button>
           <NewAnnouncement
+            course={course}
             show={showAnnouncement}
             hide={() => setShowAnnouncement(false)}
           />
@@ -47,4 +51,9 @@ export default function Home() {
   );
 }
 
-// export function getServerSideProps()
+export const getServerSideProps = withSessionSsr(async ({ params }) => {
+  const { id } = params;
+  const coursesCollection = await getCoursesCollection();
+  const course = await coursesCollection.findOne({ shortName: id });
+  return { props: { course: JSON.parse(JSON.stringify(course)) } };
+});

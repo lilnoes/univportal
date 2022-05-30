@@ -5,14 +5,19 @@ import LeftMenu from "components/navigation/menu";
 import Template from "components/navigation/template";
 import Link from "next/link";
 import { useState } from "react";
+import { withSessionSsr } from "lib/withSession";
+import { getCoursesCollection } from "lib/db";
+import useQuizzes from "hooks/quiz/useQuizzes";
 
-export default function Home() {
+export default function Home({ course }) {
   const [showQuiz, setShowQuiz] = useState(false);
+  const { quizzes } = useQuizzes(course?.shortName);
+  if (!course) return <div></div>;
   return (
     <Template
       title={
         <h1 className="text-3xl p-2 text-primaryd font-bold">
-          PROGRAMMING APPLICATION - QUIZZES
+          {course.name.toUpperCase()} - QUIZZES
         </h1>
       }
       main={
@@ -24,20 +29,24 @@ export default function Home() {
               <td>File</td>
               <td>Duration</td>
             </tr>
-            <tr className="border-b">
-              <td className="p-2">
-                <Link href={`/teacher/quiz/1`}>
-                  <a className="underline">Quiz 1</a>
-                </Link>
-              </td>
-              <td>May 1st, 2022</td>
-              <td>File</td>
-              <td>20 mins</td>
-            </tr>
+            {quizzes?.map((quiz) => (
+              <tr className="border-b">
+                <td className="p-2">
+                  <Link
+                    href={`/teacher/course/${course.shortName}/quiz/${quiz.shortName}`}
+                  >
+                    <a className="underline">{quiz.name}</a>
+                  </Link>
+                </td>
+                <td>May 1st, 2022</td>
+                <td>File</td>
+                <td>{quiz.duration} mins</td>
+              </tr>
+            ))}
           </table>
         </div>
       }
-      left={<LeftMenu />}
+      left={<LeftMenu base={`teacher/course/${course.shortName}`} />}
       right={
         <div>
           <button
@@ -46,9 +55,20 @@ export default function Home() {
           >
             New Quiz
           </button>
-          <NewQuiz show={showQuiz} hide={() => setShowQuiz(false)} />
+          <NewQuiz
+            course={course}
+            show={showQuiz}
+            hide={() => setShowQuiz(false)}
+          />
         </div>
       }
     />
   );
 }
+
+export const getServerSideProps = withSessionSsr(async ({ req, params }) => {
+  const { id } = params;
+  const coursesCollection = await getCoursesCollection();
+  const course = await coursesCollection.findOne({ shortName: id });
+  return { props: { course: JSON.parse(JSON.stringify(course)) } };
+});

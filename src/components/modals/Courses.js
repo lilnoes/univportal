@@ -9,7 +9,6 @@ export default function Courses({ base, show, hide }) {
   show = show ?? true;
   const ref = useRef();
   const { courses } = useCourses();
-  console.log("courses", courses);
   useOutsideClick(ref, hide);
   return (
     <div

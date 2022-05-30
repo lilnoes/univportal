@@ -95,8 +95,9 @@ export default function NewCourseModal({ show, hide }) {
                 description,
                 requirements,
               });
-              console.log("course", json);
+              console.log("json", json);
               await mutate("/api/course/list");
+              hide();
             }}
             className="grow bg-primaryd text-white text-2xl p-2 rounded-lg"
           >

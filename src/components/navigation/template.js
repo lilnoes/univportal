@@ -4,7 +4,6 @@ import Footer from "./footer";
 export default function Template({ title, main, right, left, page, base }) {
   const { user } = useUser();
   if (!user) return <div></div>;
-  console.log("current user", user);
   return (
     <>
       <div className="w-full h-screen flex flex-col">

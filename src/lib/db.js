@@ -24,6 +24,12 @@ export async function getAnnouncementsCollection() {
   return db.collection("announcements");
 }
 
+export async function getQuizCollection() {
+  if (init) await initDb();
+  const db = client.db(dbName);
+  return db.collection("quizzes");
+}
+
 async function initDb() {
   await client.connect();
   init = false;

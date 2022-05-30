@@ -1,13 +1,13 @@
 import fetcher from "lib/fetcher";
 import useSWR from "swr";
 
-export default function useAnnouncements(shortName) {
+export default function useQuizzes(shortName) {
   const { data, error } = useSWR(
-    shortName ? ["/api/announcement/list", { shortName }] : null,
+    shortName ? ["/api/quiz/list", { shortName }] : null,
     fetcher
   );
   return {
-    announcements: data?.data?.announcements,
+    quizzes: data?.data?.quizzes,
     isLoading: !error && !data,
     isError: error,
   };

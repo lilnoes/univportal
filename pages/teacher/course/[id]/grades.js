@@ -4,8 +4,10 @@ import NewQuiz from "components/modals/NewQuiz";
 import LeftMenu from "components/navigation/menu";
 import Template from "components/navigation/template";
 import { useState } from "react";
+import { withSessionSsr } from "lib/withSession";
+import { getCoursesCollection } from "lib/db";
 
-export default function Home() {
+export default function Home({ course }) {
   const [showStudents, setShowStudents] = useState(false);
   return (
     <Template
@@ -32,7 +34,14 @@ export default function Home() {
           </table>
         </div>
       }
-      left={<LeftMenu />}
+      left={<LeftMenu base={`teacher/course/${course.shortName}`} />}
     />
   );
 }
+
+export const getServerSideProps = withSessionSsr(async ({ req, params }) => {
+  const { id } = params;
+  const coursesCollection = await getCoursesCollection();
+  const course = await coursesCollection.findOne({ shortName: id });
+  return { props: { course: JSON.parse(JSON.stringify(course)) } };
+});

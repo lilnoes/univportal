@@ -43,7 +43,6 @@ export default function Home() {
                   password,
                 });
                 const user = json?.data?.user;
-                console.log(json);
                 if (!user) return;
                 if (user.type == "teacher") router.push("/teacher");
                 if (user.type == "student") router.push("/student");

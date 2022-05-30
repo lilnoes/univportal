@@ -1,9 +1,11 @@
 import NewCourseModal from "components/modals/NewCourse";
 import LeftMenu from "components/navigation/menu";
 import Template from "components/navigation/template";
+import { getAnnouncementsCollection } from "lib/db";
+import { withSessionSsr } from "lib/withSession";
 import { useState } from "react";
 
-export default function Home() {
+export default function Home({ user, announcements }) {
   const [showCourse, setShowCourse] = useState(false);
   return (
     <Template
@@ -12,7 +14,11 @@ export default function Home() {
         <>
           <h2 className="font-bold">Announcements</h2>
           <ul className="list-disc">
-            <li className="my-2">Announcement 1</li>
+            {announcements?.map((announcement) => (
+              <li key={announcement._id} className="my-2">
+                {announcement.title}
+              </li>
+            ))}
           </ul>
         </>
       }
@@ -30,3 +36,17 @@ export default function Home() {
     />
   );
 }
+
+export const getServerSideProps = withSessionSsr(async ({ req }) => {
+  const user = req.session.user;
+  const announcementsCollection = await getAnnouncementsCollection();
+  const announcements = await announcementsCollection
+    .find({ creator: user._id })
+    .toArray();
+  return {
+    props: {
+      user: JSON.parse(JSON.stringify(user)),
+      announcements: JSON.parse(JSON.stringify(announcements)),
+    },
+  };
+});

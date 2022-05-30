@@ -1,11 +1,16 @@
 import classNames from "classnames";
 import useOutsideClick from "hooks/utils/useOutsideClick";
-import { useRef } from "react";
+import fetcher from "lib/fetcher";
+import { useRef, useState } from "react";
+import { mutate } from "swr";
 
-export default function NewQuiz({ show, hide }) {
+export default function NewQuiz({ course, show, hide }) {
   show = show ?? true;
   const ref = useRef(null);
   useOutsideClick(ref, hide);
+  const [name, setName] = useState("");
+  const [duration, setDuration] = useState(20);
+  const [date, setDate] = useState(new Date());
   return (
     <div
       className={classNames(
@@ -24,6 +29,17 @@ export default function NewQuiz({ show, hide }) {
           <input
             className="w-full outline-none border-[1px] border-primaryl"
             type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </div>
+        <div className="mb-5">
+          <label className="block">Duration</label>
+          <input
+            className="w-full outline-none border-[1px] border-primaryl"
+            type="number"
+            value={duration}
+            onChange={(e) => setDuration(e.target.value)}
           />
         </div>
         <div className="mb-5">
@@ -31,6 +47,7 @@ export default function NewQuiz({ show, hide }) {
           <input
             className="w-full outline-none border-[1px] border-primaryl"
             type="datetime-local"
+            onChange={(e) => setDate(new Date(e.target.value))}
           />
         </div>
         <div className="w-full bg-primaryl text-white p-3 flex justify-center items-center">
@@ -39,7 +56,19 @@ export default function NewQuiz({ show, hide }) {
         <p>Upload file or drag it above.</p>
 
         <div className="flex mt-5">
-          <button className="grow bg-primaryd text-white text-2xl p-2 rounded-lg">
+          <button
+            className="grow bg-primaryd text-white text-2xl p-2 rounded-lg"
+            onClick={async () => {
+              const json = await fetcher("/api/quiz/create", {
+                name,
+                duration,
+                course: course._id,
+                date: date.getTime(),
+              });
+              mutate(["/api/quiz/list", { shortName: course.shortName }]);
+              hide();
+            }}
+          >
             Create
           </button>
           <button onClick={hide} className="grow text-red-700">

@@ -95,30 +95,34 @@ export default function Home() {
               ))}
             </select>
           </div>
-          <div className="my-2 w-full">
-            <label className="block text-sm">Department</label>
-            <select
-              className="p-1 rounded text-primaryd font-bold"
-              value={department}
-              onChange={(e) => setDepartment(e.target.value)}
-            >
-              {departments.map((department) => (
-                <option key={department}>{department}</option>
-              ))}
-            </select>
-          </div>
-          <div className="my-2 w-full">
-            <label className="block text-sm">Year</label>
-            <select
-              className="p-1 rounded text-primaryd font-bold"
-              value={year}
-              onChange={(e) => setYear(e.target.value)}
-            >
-              {[1, 2, 3, 4].map((year) => (
-                <option key={year}>{year}</option>
-              ))}
-            </select>
-          </div>
+          {type == "student" && (
+            <div className="my-2 w-full">
+              <label className="block text-sm">Department</label>
+              <select
+                className="p-1 rounded text-primaryd font-bold"
+                value={department}
+                onChange={(e) => setDepartment(e.target.value)}
+              >
+                {departments.map((department) => (
+                  <option key={department}>{department}</option>
+                ))}
+              </select>
+            </div>
+          )}
+          {type == "student" && (
+            <div className="my-2 w-full">
+              <label className="block text-sm">Year</label>
+              <select
+                className="p-1 rounded text-primaryd font-bold"
+                value={year}
+                onChange={(e) => setYear(e.target.value)}
+              >
+                {[1, 2, 3, 4].map((year) => (
+                  <option key={year}>{year}</option>
+                ))}
+              </select>
+            </div>
+          )}
           <div className="my-2">
             <input
               className="p-1 rounded text-primaryd font-bold"
@@ -142,7 +146,6 @@ export default function Home() {
                   year,
                   password,
                 });
-                console.log("data register", data);
                 if (data.error == "") router.replace("/account/login");
               }}
               className="bg-textp text-secondary font-extrabold p-2 rounded-lg"

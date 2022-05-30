@@ -3,6 +3,7 @@
 import {
   getAnnouncementsCollection,
   getCoursesCollection,
+  getQuizCollection,
   getUsersCollection,
 } from "lib/db";
 import { withSessionRoute } from "lib/withSession";
@@ -11,16 +12,13 @@ import { ObjectId } from "mongodb";
 export default withSessionRoute(async (req, res) => {
   const { shortName } = req.body;
   const coursesCollection = await getCoursesCollection();
-  const announcementsCollection = await getAnnouncementsCollection();
+  const quizCollection = await getQuizCollection();
   const user = req.session.user;
   const course = await coursesCollection.findOne({ shortName });
-  console.log(course._id);
-  const announcements = await announcementsCollection
-    .find({ course: course._id.toString() })
-    .toArray();
+  const quizzes = await quizCollection.find({ course: course._id }).toArray();
   res.send({
     error: "",
-    success: "announcements fetched",
-    data: { announcements },
+    success: "quizzes fetched",
+    data: { quizzes },
   });
 });

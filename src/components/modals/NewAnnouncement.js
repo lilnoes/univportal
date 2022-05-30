@@ -2,6 +2,7 @@ import classNames from "classnames";
 import useOutsideClick from "hooks/utils/useOutsideClick";
 import fetcher from "lib/fetcher";
 import { useRef, useState } from "react";
+import { mutate } from "swr";
 
 export default function NewAnnouncement({ course, show, hide }) {
   show = show ?? true;
@@ -43,12 +44,16 @@ export default function NewAnnouncement({ course, show, hide }) {
           <button
             className="grow bg-primaryd text-white text-2xl p-2 rounded-lg"
             onClick={async () => {
-              const json = await fetcher("/api/course/announcement/create", {
+              const json = await fetcher("/api/announcement/create", {
                 title,
                 content,
-                course,
+                course: course._id,
               });
               console.log("course", json);
+              mutate([
+                "api/announcement/list",
+                { shortName: course.shortName },
+              ]);
             }}
           >
             Create

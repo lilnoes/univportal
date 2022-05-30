@@ -13,7 +13,6 @@ export default function Home({ course }) {
   const [showAnnouncement, setShowAnnouncement] = useState(false);
   const [showQuiz, setShowQuiz] = useState(false);
   const [showAcceptStudents, setShowAcceptStudents] = useState(false);
-  const { announcements } = useAnnouncements(course?._id);
   if (!course) return <div></div>;
   return (
     <Template
@@ -33,7 +32,7 @@ export default function Home({ course }) {
           <p className="text-gray-500 mb-10">{course.requirements}</p>
         </div>
       }
-      left={<LeftMenu base={`teacher/course/${course.shortName}`}/>}
+      left={<LeftMenu base={`teacher/course/${course.shortName}`} />}
       right={
         <div>
           <button
@@ -43,7 +42,7 @@ export default function Home({ course }) {
             New Announcement
           </button>
           <NewAnnouncement
-            course={course._id}
+            course={course}
             show={showAnnouncement}
             hide={() => setShowAnnouncement(false)}
           />
@@ -53,7 +52,11 @@ export default function Home({ course }) {
           >
             New Quiz
           </button>
-          <NewQuiz show={showQuiz} hide={() => setShowQuiz(false)} />
+          <NewQuiz
+            course={course}
+            show={showQuiz}
+            hide={() => setShowQuiz(false)}
+          />
           <button
             className="my-3 block bg-primaryd p-2 text-white"
             onClick={() => setShowAcceptStudents(true)}
