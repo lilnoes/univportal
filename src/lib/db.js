@@ -30,6 +30,12 @@ export async function getQuizCollection() {
   return db.collection("quizzes");
 }
 
+export async function getEnrollmentCollection() {
+  if (init) await initDb();
+  const db = client.db(dbName);
+  return db.collection("enrollments");
+}
+
 async function initDb() {
   await client.connect();
   init = false;

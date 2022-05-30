@@ -3,10 +3,12 @@ import AvailableCourses from "components/modals/AvailableCourses";
 import NewCourseModal from "components/modals/NewCourse";
 import LeftMenu from "components/navigation/menu";
 import Template from "components/navigation/template";
+import { getEnrollmentCollection } from "lib/db";
+import { withSessionSsr } from "lib/withSession";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-export default function Home() {
+export default function Home({ announcements, enrollments }) {
   const router = useRouter();
   const [showAvailableCourses, setShowAvailableCourses] = useState(false);
   return (
@@ -69,3 +71,13 @@ export default function Home() {
     />
   );
 }
+
+export const getServerSideProps = withSessionSsr(async ({ req }) => {
+  const user = req.session.user;
+  const enrollmentsCollection = await getEnrollmentCollection();
+  const enrollments = await enrollmentsCollection
+    .find({ student: user._id, status: "accepted" })
+    .toArray();
+
+  return { props: { enrollments: JSON.parse(JSON.stringify(enrollments)) } };
+});
