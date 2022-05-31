@@ -10,7 +10,6 @@ export default function AvailableCourses({ show, hide }) {
   const ref = useRef(null);
   useOutsideClick(ref, hide);
   const { courses } = useAvailableCourses();
-  console.log("c", courses);
   return (
     <div
       className={classNames(
@@ -25,35 +24,48 @@ export default function AvailableCourses({ show, hide }) {
         <h1 className="text-2xl text-secondaryd font-bold mb-5">
           Available courses
         </h1>
-        {courses?.map((course) => (
-          <Fragment key={course._id}>
-            <div className="flex justify-between items-center">
-              <div>
-                <h2 className="font-bold">{course.name.toUpperCase()}</h2>
-                <h3 className="text-gray-700">
-                  {course.creator.title} {course.creator.firstName}
-                </h3>
+        {courses?.map((c) => {
+          const { course, creator, status } = c;
+          return (
+            <Fragment key={c._id}>
+              <div className="flex justify-between items-center">
+                <div>
+                  <h2 className="font-bold">{course.name.toUpperCase()}</h2>
+                  <h3 className="text-gray-700">
+                    {creator.title} {creator.firstName}
+                  </h3>
+                </div>
+                <div>
+                  {status == "" && (
+                    <button
+                      className="bg-secondaryd text-white rounded-lg p-2"
+                      onClick={async () => {
+                        const json = await fetcher("/api/course/join", {
+                          shortName: course.shortName,
+                        });
+                        mutate("/api/course/available");
+                        console.log("jo", json);
+                      }}
+                    >
+                      JOIN
+                    </button>
+                  )}
+                  {status == "waiting" && (
+                    <button className="bg-secondaryd text-white rounded-lg p-2">
+                      WAITING
+                    </button>
+                  )}
+                  {status == "accepted" && (
+                    <button className="bg-secondaryd text-white rounded-lg p-2">
+                      ACCEPTED
+                    </button>
+                  )}
+                </div>
               </div>
-              <div>
-                {course.status == "" && (
-                  <button
-                    className="bg-secondaryd text-white rounded-lg p-2"
-                    onClick={async () => {
-                      const json = await fetcher("/api/course/join", {
-                        shortName: course.shortName,
-                      });
-                      mutate("/api/course/available");
-                      console.log("jo", json);
-                    }}
-                  >
-                    JOIN
-                  </button>
-                )}
-              </div>
-            </div>
-            <hr className="my-3" />
-          </Fragment>
-        ))}
+              <hr className="my-3" />
+            </Fragment>
+          );
+        })}
 
         <button className="mt-5 text-red-600" onClick={hide}>
           Close

@@ -41,11 +41,18 @@ async function initDb() {
   init = false;
   const usersCollection = await getUsersCollection();
   const coursesCollection = await getCoursesCollection();
+  const enrollmentsCollection = await getEnrollmentCollection();
 
   //emails must be unique
   await usersCollection.createIndex({ email: 1 }, { unique: true });
 
   //shortnames must be unique
   await coursesCollection.createIndex({ shortName: 1 }, { unique: true });
+
+  //enrollment should be unique
+  await enrollmentsCollection.createIndex(
+    { student: 1, course: 1 },
+    { unique: true }
+  );
   //initialise indices
 }

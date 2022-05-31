@@ -39,10 +39,17 @@ export default withSessionRoute(async (req, res) => {
       },
     ])
     .toArray();
+  const found = enrollments.map((enrollment) => enrollment.course._id);
   const courses = await courseCollection
     .aggregate([
       { $addFields: { creatorId: { $toObjectId: "$creator" } } },
-      { $match: { year: user.year, department: user.department } },
+      {
+        $match: {
+          year: user.year,
+          department: user.department,
+          _id: { $nin: found },
+        },
+      },
       {
         $lookup: {
           from: "users",
@@ -52,10 +59,18 @@ export default withSessionRoute(async (req, res) => {
         },
       },
       {
-        $addFields: { creator: { $arrayElemAt: ["$creator", 0] }, status: "" },
+        $addFields: {
+          creator: { $arrayElemAt: ["$creator", 0] },
+          status: "",
+          course: "$$ROOT",
+        },
       },
     ])
     .toArray();
-  console.log(enrollments);
-  res.send({ error: "", success: "courses", data: { courses, enrollments } });
+
+  res.send({
+    error: "",
+    success: "courses",
+    data: { courses: [...enrollments, ...courses] },
+  });
 });
