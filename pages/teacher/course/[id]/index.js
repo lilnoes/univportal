@@ -64,6 +64,7 @@ export default function Home({ course }) {
             Accept/Deny students
           </button>
           <AcceptStudents
+            course={course}
             show={showAcceptStudents}
             hide={() => setShowAcceptStudents(false)}
           />

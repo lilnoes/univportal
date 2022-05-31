@@ -8,6 +8,7 @@ import { useState } from "react";
 import { withSessionSsr } from "lib/withSession";
 import { getCoursesCollection } from "lib/db";
 import useQuizzes from "hooks/quiz/useQuizzes";
+import moment from "moment";
 
 export default function Home({ course }) {
   const [showQuiz, setShowQuiz] = useState(false);
@@ -28,6 +29,7 @@ export default function Home({ course }) {
               <td>Start at</td>
               <td>File</td>
               <td>Duration</td>
+              <td>Max points</td>
             </tr>
             {quizzes?.map((quiz) => (
               <tr className="border-b">
@@ -38,9 +40,10 @@ export default function Home({ course }) {
                     <a className="underline">{quiz.name}</a>
                   </Link>
                 </td>
-                <td>May 1st, 2022</td>
+                <td>{moment(quiz.date).format("MMM D, YYYY")}</td>
                 <td>File</td>
                 <td>{quiz.duration} mins</td>
+                <td>{quiz.max}</td>
               </tr>
             ))}
           </table>

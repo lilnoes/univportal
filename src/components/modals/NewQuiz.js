@@ -10,6 +10,7 @@ export default function NewQuiz({ course, show, hide }) {
   useOutsideClick(ref, hide);
   const [name, setName] = useState("");
   const [duration, setDuration] = useState(20);
+  const [max, setMax] = useState(100);
   const [date, setDate] = useState(new Date());
   return (
     <div
@@ -31,6 +32,15 @@ export default function NewQuiz({ course, show, hide }) {
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
+          />
+        </div>
+        <div className="mb-5">
+          <label className="block">Max Points</label>
+          <input
+            className="w-full outline-none border-[1px] border-primaryl"
+            type="number"
+            value={max}
+            onChange={(e) => setMax(e.target.value)}
           />
         </div>
         <div className="mb-5">
@@ -62,6 +72,7 @@ export default function NewQuiz({ course, show, hide }) {
               const json = await fetcher("/api/quiz/create", {
                 name,
                 duration,
+                max,
                 course: course._id,
                 date: date.getTime(),
               });

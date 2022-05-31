@@ -3,12 +3,30 @@ import NewCourseModal from "components/modals/NewCourse";
 import NewQuiz from "components/modals/NewQuiz";
 import LeftMenu from "components/navigation/menu";
 import Template from "components/navigation/template";
-import { getCoursesCollection, getQuizCollection } from "lib/db";
+import {
+  getCoursesCollection,
+  getGradesCollection,
+  getQuizCollection,
+} from "lib/db";
+import fetcher from "lib/fetcher";
 import { withSessionSsr } from "lib/withSession";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import moment from "moment";
 
-export default function Home({ course, quiz }) {
+export default function Home({ course, quiz, grades: __grades }) {
   const [showStudents, setShowStudents] = useState(false);
+  const _grades = useMemo(() => {
+    const grades = {};
+    for (let grade of __grades) grades[grade._id] = grade;
+    return grades;
+  }, [__grades]);
+  const [grades, setGrades] = useState(_grades);
+  const updateGrade = async (_id, points) => {
+    const json = await fetcher("/api/quiz/update", { _id, points });
+    grades[_id].points = points;
+    setGrades({ ...grades });
+    console.log("j", json);
+  };
   if (!quiz || !course) return <div></div>;
   return (
     <Template
@@ -26,16 +44,38 @@ export default function Home({ course, quiz }) {
               <td>Points</td>
               <td>Out Of</td>
             </tr>
-            <tr className="border-b">
-              <td className="p-2">Leon Emma</td>
-              <td>May 1st, 2022</td>
-              <td>
-                <input className="w-12" type="text" defaultValue={80} />
-              </td>
-              <td>
-                <input className="w-12" type="text" defaultValue={100} />
-              </td>
-            </tr>
+            {grades &&
+              Object.keys(grades).map((key) => {
+                const grade = grades[key];
+                return (
+                  <tr className="border-b">
+                    <td className="p-2">
+                      {grade.student.firstName} {grade.student.lastName}
+                    </td>
+                    <td>{moment(quiz.date).format("MMM DD, YYYY")}</td>
+                    <td>
+                      <input
+                        className="w-12"
+                        type="text"
+                        value={grade.points}
+                        onChange={(e) =>
+                          updateGrade(grade._id, e.target.value).then(() =>
+                            console.log("d")
+                          )
+                        }
+                      />
+                    </td>
+                    <td>
+                      <input
+                        className="w-12"
+                        type="text"
+                        defaultValue={quiz.max}
+                        disabled={true}
+                      />
+                    </td>
+                  </tr>
+                );
+              })}
           </table>
         </div>
       }
@@ -47,12 +87,36 @@ export const getServerSideProps = withSessionSsr(async ({ req, params }) => {
   const { id, q } = params;
   const coursesCollection = await getCoursesCollection();
   const quizCollection = await getQuizCollection();
+  const gradesCollection = await getGradesCollection();
   const course = await coursesCollection.findOne({ shortName: id });
   const quiz = await quizCollection.findOne({ shortName: q });
+
+  const grades = await gradesCollection
+    .aggregate([
+      { $addFields: { studentId: { $toObjectId: "$student" } } },
+      { $match: { quiz: q } },
+      {
+        $lookup: {
+          from: "users",
+          localField: "studentId",
+          foreignField: "_id",
+          as: "student",
+        },
+      },
+
+      {
+        $addFields: {
+          student: { $arrayElemAt: ["$student", 0] },
+        },
+      },
+    ])
+    .toArray();
+
   return {
     props: {
       course: JSON.parse(JSON.stringify(course)),
       quiz: JSON.parse(JSON.stringify(quiz)),
+      grades: JSON.parse(JSON.stringify(grades)),
     },
   };
 });

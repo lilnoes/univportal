@@ -1,14 +1,15 @@
 import LeftMenu from "components/navigation/menu";
 import Template from "components/navigation/template";
 import { withSessionSsr } from "lib/withSession";
-import { getCoursesCollection } from "lib/db";
+import { getCoursesCollection, getEnrollmentCollection } from "lib/db";
 
-export default function Home({ course }) {
+export default function Home({ course, people }) {
+  if (!course) return <div></div>;
   return (
     <Template
       title={
         <h1 className="text-3xl p-2 text-primaryd font-bold">
-          PROGRAMMING APPLICATION - People
+          {course.name} - People
         </h1>
       }
       main={
@@ -19,11 +20,13 @@ export default function Home({ course }) {
               <td>Surname</td>
               <td>Country</td>
             </tr>
-            <tr className="border-b">
-              <td className="p-2">Leon Emma</td>
-              <td>ISHIMWE</td>
-              <td>RWANDA</td>
-            </tr>
+            {people?.map((member) => (
+              <tr key={member._id} className="border-b">
+                <td className="p-2">{member.student.firstName}</td>
+                <td>{member.student.lastName}</td>
+                <td>{member.student.country}</td>
+              </tr>
+            ))}
           </table>
         </div>
       }
@@ -36,5 +39,31 @@ export const getServerSideProps = withSessionSsr(async ({ req, params }) => {
   const { id } = params;
   const coursesCollection = await getCoursesCollection();
   const course = await coursesCollection.findOne({ shortName: id });
-  return { props: { course: JSON.parse(JSON.stringify(course)) } };
+  const enrollmentsCollection = await getEnrollmentCollection();
+  const people = await enrollmentsCollection
+    .aggregate([
+      { $addFields: { studentId: { $toObjectId: "$student" } } },
+      { $match: { course: course._id, status: "accepted" } },
+      {
+        $lookup: {
+          from: "users",
+          localField: "studentId",
+          foreignField: "_id",
+          as: "student",
+        },
+      },
+
+      {
+        $addFields: {
+          student: { $arrayElemAt: ["$student", 0] },
+        },
+      },
+    ])
+    .toArray();
+  return {
+    props: {
+      course: JSON.parse(JSON.stringify(course)),
+      people: JSON.parse(JSON.stringify(people)),
+    },
+  };
 });

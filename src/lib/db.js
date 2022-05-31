@@ -36,12 +36,19 @@ export async function getEnrollmentCollection() {
   return db.collection("enrollments");
 }
 
+export async function getGradesCollection() {
+  if (init) await initDb();
+  const db = client.db(dbName);
+  return db.collection("grades");
+}
+
 async function initDb() {
   await client.connect();
   init = false;
   const usersCollection = await getUsersCollection();
   const coursesCollection = await getCoursesCollection();
   const enrollmentsCollection = await getEnrollmentCollection();
+  const gradesCollection = await getGradesCollection();
 
   //emails must be unique
   await usersCollection.createIndex({ email: 1 }, { unique: true });
@@ -54,5 +61,8 @@ async function initDb() {
     { student: 1, course: 1 },
     { unique: true }
   );
+
+  //grade should be unique
+  await gradesCollection.createIndex({ student: 1, quiz: 1 }, { unique: true });
   //initialise indices
 }
