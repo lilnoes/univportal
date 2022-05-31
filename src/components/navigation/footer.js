@@ -7,6 +7,8 @@ import Person from "components/icons/person";
 import Courses from "components/modals/Courses";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import fetcher from "lib/fetcher";
+import { mutate } from "swr";
 
 export default function Footer({ base, selected }) {
   const router = useRouter();
@@ -55,7 +57,9 @@ export default function Footer({ base, selected }) {
       <MenuItem
         Icon={Logout}
         display="Logout"
-        setActive={() => {
+        setActive={async () => {
+          await fetcher("/api/account/logout");
+          mutate("/api/account");
           router.replace(`/account/login`);
         }}
         selected={active == "logout"}

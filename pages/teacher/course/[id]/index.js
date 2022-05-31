@@ -5,11 +5,11 @@ import NewQuiz from "components/modals/NewQuiz";
 import LeftMenu from "components/navigation/menu";
 import Template from "components/navigation/template";
 import useAnnouncements from "hooks/courses/useAnnouncements";
-import { getCoursesCollection } from "lib/db";
+import { getCoursesCollection, getEnrollmentCollection } from "lib/db";
 import { withSessionSsr } from "lib/withSession";
 import { useState } from "react";
 
-export default function Home({ course }) {
+export default function Home({ course, count }) {
   const [showAnnouncement, setShowAnnouncement] = useState(false);
   const [showQuiz, setShowQuiz] = useState(false);
   const [showAcceptStudents, setShowAcceptStudents] = useState(false);
@@ -25,7 +25,7 @@ export default function Home({ course }) {
         <div className="text-xl">
           <h2 className="font-bold">{course.name}</h2>
           <h2 className="text-gray-500">{course.shortName}</h2>
-          <h2 className="text-gray-500 text-sm">Students: {course.count}</h2>
+          <h2 className="text-gray-500 text-sm">Students: {count}</h2>
           <h2 className="mt-5 font-bold">Description</h2>
           <p className="text-gray-500 mb-10">{course.description}</p>
           <h2 className="mt-5 font-bold">Requirements</h2>
@@ -78,5 +78,13 @@ export const getServerSideProps = withSessionSsr(async ({ req, params }) => {
   const { id } = params;
   const coursesCollection = await getCoursesCollection();
   const course = await coursesCollection.findOne({ shortName: id });
-  return { props: { course: JSON.parse(JSON.stringify(course)) } };
+  const enrollmentsCollection = await getEnrollmentCollection();
+
+  const students = await enrollmentsCollection.count({
+    course: course._id,
+    status: "accepted",
+  });
+  return {
+    props: { course: JSON.parse(JSON.stringify(course)), count: students },
+  };
 });

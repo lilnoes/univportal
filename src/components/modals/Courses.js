@@ -21,17 +21,20 @@ export default function Courses({ base, show, hide }) {
         ref={ref}
         className="w-[40%] h-full bg-primaryd p-3 text-primaryd font-bold"
       >
-        {courses?.map((course) => (
-          <div
-            key={course._id}
-            className="my-5 p-5 shadow-lg bg-white rounded-xl"
-          >
-            <Link href={`/${base}/course/${course.shortName}`}>
-              <a className="underline">{course.name}</a>
-            </Link>
-            <h2>{course.shortName}</h2>
-          </div>
-        ))}
+        {courses?.map((c) => {
+          const course = c.course;
+          return (
+            <div
+              key={course._id}
+              className="my-5 p-5 shadow-lg bg-white rounded-xl"
+            >
+              <Link href={`/${base}/course/${course.shortName}`}>
+                <a className="underline">{course.name}</a>
+              </Link>
+              <h2>{course.shortName}</h2>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

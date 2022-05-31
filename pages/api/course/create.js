@@ -13,7 +13,7 @@ export default withSessionRoute(async (req, res) => {
     await courseCollection.insertOne({
       creator: user._id,
       name,
-      shortName,
+      shortName: shortName.replace(/\W/g, ""),
       year,
       department,
       description,
