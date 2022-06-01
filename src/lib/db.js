@@ -42,6 +42,12 @@ export async function getGradesCollection() {
   return db.collection("grades");
 }
 
+export async function getMessagesCollection() {
+  if (init) await initDb();
+  const db = client.db(dbName);
+  return db.collection("messages");
+}
+
 async function initDb() {
   await client.connect();
   init = false;
