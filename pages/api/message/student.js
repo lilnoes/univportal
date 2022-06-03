@@ -10,18 +10,17 @@ import sha1 from "sha1";
 
 export default withSessionRoute(async (req, res) => {
   const user = req.session.user;
-  const { from, to, course, message } = req.body;
+  const { courseId, teacherId } = req.body;
   const messagesCollection = await getMessagesCollection();
-  try {
-    await messagesCollection.insertOne({
-      from,
-      to,
-      course,
-      message,
-      date: new Date(),
-    });
-  } catch (e) {
-    return res.send({ error: "error adding message", success: "", data: {} });
-  }
-  res.send({ error: "", success: "message added", data: {} });
+  const messages = await messagesCollection
+    .find({
+      $or: [
+        { course: courseId },
+        { from: user._id, to: teacherId },
+        { to: user._id, from: teacherId },
+      ],
+    })
+    .toArray();
+
+  res.send({ error: "", success: "messages fetched", data: { messages } });
 });

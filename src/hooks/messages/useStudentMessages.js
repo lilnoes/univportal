@@ -1,15 +1,14 @@
 import fetcher from "lib/fetcher";
 import useSWR from "swr";
 
-export default function useMessages(recipient) {
+export default function useStudentMessages(recipient) {
   const { data, error } = useSWR(
     recipient
       ? [
-          "/api/message/teacher",
+          "/api/message/student",
           {
-            type: recipient.type,
-            courseId: recipient.courseId,
-            userId: recipient.userId,
+            courseId: recipient.course._id,
+            teacherId: recipient.creator._id,
           },
         ]
       : null,

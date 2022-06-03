@@ -4,14 +4,14 @@ import NewCourseModal from "components/modals/NewCourse";
 import LeftMenu from "components/navigation/menu";
 import TemplateInbox from "components/navigation/templateinbox";
 import useMessages from "hooks/messages/useMessages";
-import { getCoursesCollection } from "lib/db";
+import { getCoursesCollection, getMessagesCollection } from "lib/db";
 import fetcher from "lib/fetcher";
 import { withSessionSsr } from "lib/withSession";
 import moment from "moment";
 import { Fragment, useState } from "react";
 import { mutate } from "swr";
 
-export default function Home({ courses, user }) {
+export default function Home({ courses, user, students }) {
   const [showAnnouncement, setShowAnnouncement] = useState(false);
   const [recipient, setRecipient] = useState(null);
   const [message, setMessage] = useState("");
@@ -34,6 +34,21 @@ export default function Home({ courses, user }) {
                   onClick={() => setRecipient(course)}
                 >
                   <h2 className="font-bold">{course.name}</h2>
+                  <div className="flex items-center">
+                    <p></p>
+                    <Message fill="fill-primaryd" />
+                  </div>
+                </div>
+                <hr className="my-2" />
+              </Fragment>
+            ))}
+            {students?.map((student) => (
+              <Fragment>
+                <div
+                  className="flex justify-between p-2 cursor-pointer"
+                  onClick={() => setRecipient(student)}
+                >
+                  <h2 className="font-bold">{student.name}</h2>
                   <div className="flex items-center">
                     <p></p>
                     <Message fill="fill-primaryd" />
@@ -94,18 +109,21 @@ export default function Home({ courses, user }) {
                     className="bg-primary text-white p-2 rounded-lg"
                     onClick={async () => {
                       const json = await fetcher("/api/message/create", {
-                        recipient,
+                        from: user._id,
+                        course: recipient.courseId,
+                        to: recipient.userId,
                         message,
                       });
                       console.log("j", json);
                       mutate([
-                        "/api/message",
+                        "/api/message/teacher",
                         {
                           type: recipient.type,
                           courseId: recipient.courseId,
                           userId: recipient.userId,
                         },
                       ]);
+                      setMessage("");
                     }}
                   >
                     Send
@@ -124,10 +142,34 @@ export default function Home({ courses, user }) {
 export const getServerSideProps = withSessionSsr(async ({ req }) => {
   const user = req.session.user;
   const coursesCollection = await getCoursesCollection();
+  const messagesCollection = await getMessagesCollection();
   const courses = await coursesCollection
     .aggregate([
       { $match: { creator: user._id } },
       { $addFields: { courseId: "$_id", type: "course" } },
+    ])
+    .toArray();
+  const students = await messagesCollection
+    .aggregate([
+      { $match: { to: user._id } },
+      { $group: { _id: "$from" } },
+      { $addFields: { _id: { $toObjectId: "$_id" } } },
+      {
+        $lookup: {
+          from: "users",
+          localField: "_id",
+          foreignField: "_id",
+          as: "sender",
+        },
+      },
+      { $addFields: { sender: { $first: "$sender" } } },
+      {
+        $addFields: {
+          type: "person",
+          userId: "$sender._id",
+          name: { $concat: ["$sender.firstName", " ", "$sender.lastName"] },
+        },
+      },
     ])
     .toArray();
 
@@ -135,6 +177,7 @@ export const getServerSideProps = withSessionSsr(async ({ req }) => {
     props: {
       courses: JSON.parse(JSON.stringify(courses)),
       user: JSON.parse(JSON.stringify(user)),
+      students: JSON.parse(JSON.stringify(students)),
     },
   };
 });
