@@ -20,39 +20,45 @@ export default function Home({ courses, user }) {
     <TemplateInbox
       base={"student"}
       page="inbox"
-      title={<h1 className="text-3xl p-2 text-primaryd font-bold">Messages</h1>}
+      title={<h1 className="text-3xl p-2 text-primaryd font-bold">Mesajlar</h1>}
       main={
         <div className="flex h-full">
           <div className="w-[40%]">
             <h2 className="bg-secondaryd text-white font-bold p-2">
-              PROFESSORS
+              Öğretmenler
             </h2>
-            <div className="flex justify-between p-2">
-              {courses?.map((c) => {
-                const creator = c.creator;
-                const course = c.course;
-                return (
-                  <div
-                    className="cursor-pointer"
-                    onClick={() => setRecipient(c)}
-                  >
-                    <h2 className="font-bold">{course.name}</h2>
-                    <h2 className="mt-2">{creator.title}</h2>
+            {courses?.map((c) => {
+              const creator = c.creator;
+              const course = c.course;
+              return (
+                <Fragment>
+                  <div className="flex justify-between p-2">
+                    <div
+                      className="cursor-pointer"
+                      onClick={() => setRecipient(c)}
+                    >
+                      <h2 className="font-bold">{course.name.toUpperCase()}</h2>
+                      <h2 className="mt-2">{creator.title.toUpperCase()}</h2>
+                    </div>
+                    <div className="flex items-center">
+                      <p></p>
+                      <Message fill="fill-primaryd" />
+                    </div>
                   </div>
-                );
-              })}
-              <div className="flex items-center">
-                <p></p>
-                <Message fill="fill-primaryd" />
-              </div>
-            </div>
-            <hr className="my-2" />
+                  <hr className="my-2" />
+                </Fragment>
+              );
+            })}
           </div>
           {recipient && (
             <div className="grow mx-2 relative max-h-full">
               <div className="bg-secondaryd text-white p-5">
-                <h2 className="font-bold">{recipient.course.name}</h2>
-                <h2 className="mt-2">{recipient.creator.title}</h2>
+                <h2 className="font-bold">
+                  {recipient.course.name.toUpperCase()}
+                </h2>
+                <h2 className="mt-2">
+                  {recipient.creator.title.toUpperCase()}
+                </h2>
               </div>
               <div className="mb-[50px]">
                 {messages?.map((message) => {
@@ -98,6 +104,7 @@ export default function Home({ courses, user }) {
                       const json = await fetcher("/api/message/create", {
                         from: user._id,
                         to: recipient.creator._id,
+                        course: recipient.course._id,
                         message,
                       });
                       mutate([
@@ -111,7 +118,7 @@ export default function Home({ courses, user }) {
                       console.log("m", json);
                     }}
                   >
-                    Send
+                    Gönder
                   </button>
                 </div>
               </div>
@@ -119,7 +126,6 @@ export default function Home({ courses, user }) {
           )}
         </div>
       }
-      left={<LeftMenu base={"student"} />}
     />
   );
 }

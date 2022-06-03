@@ -20,20 +20,18 @@ export default function Home({ courses, user, students }) {
   return (
     <TemplateInbox
       page="inbox"
-      title={<h1 className="text-3xl p-2 text-primaryd font-bold">Messages</h1>}
+      title={<h1 className="text-3xl p-2 text-primaryd font-bold">Mesajlar</h1>}
       main={
         <div className="flex h-full">
           <div className="w-[40%]">
-            <h2 className="bg-secondaryd text-white font-bold p-2">
-              RECIPIENTS
-            </h2>
+            <h2 className="bg-secondaryd text-white font-bold p-2">ALICILAR</h2>
             {courses?.map((course) => (
               <Fragment>
                 <div
                   className="flex justify-between p-2 cursor-pointer"
                   onClick={() => setRecipient(course)}
                 >
-                  <h2 className="font-bold">{course.name}</h2>
+                  <h2 className="font-bold">{course.name.toUpperCase()}</h2>
                   <div className="flex items-center">
                     <p></p>
                     <Message fill="fill-primaryd" />
@@ -48,7 +46,7 @@ export default function Home({ courses, user, students }) {
                   className="flex justify-between p-2 cursor-pointer"
                   onClick={() => setRecipient(student)}
                 >
-                  <h2 className="font-bold">{student.name}</h2>
+                  <h2 className="font-bold">{student.name.toUpperCase()}</h2>
                   <div className="flex items-center">
                     <p></p>
                     <Message fill="fill-primaryd" />
@@ -61,7 +59,7 @@ export default function Home({ courses, user, students }) {
           <div className="grow mx-2 relative max-h-full">
             {recipient && (
               <div className="bg-secondaryd text-white font-bold p-5">
-                <h2>{recipient.name}</h2>
+                <h2>{recipient.name.toUpperCase()}</h2>
               </div>
             )}
             {recipient && (
@@ -126,7 +124,7 @@ export default function Home({ courses, user, students }) {
                       setMessage("");
                     }}
                   >
-                    Send
+                    Gönder
                   </button>
                 </div>
               )}
@@ -134,7 +132,6 @@ export default function Home({ courses, user, students }) {
           </div>
         </div>
       }
-      left={<LeftMenu />}
     />
   );
 }

@@ -24,7 +24,9 @@ export default withSessionRoute(async (req, res) => {
       })
       .toArray();
   if (type == "course")
-    messages = await messagesCollection.find({ course: courseId }).toArray();
+    messages = await messagesCollection
+      .find({ course: courseId, to: null })
+      .toArray();
 
   res.send({ error: "", success: "message fetched", data: { messages } });
 });

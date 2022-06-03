@@ -9,7 +9,6 @@ export default function Home({ user, announcements }) {
   const [showCourse, setShowCourse] = useState(false);
   return (
     <Template
-      left={<LeftMenu />}
       main={
         <>
           <h2 className="font-bold">Announcements</h2>

@@ -3,6 +3,7 @@ import useOutsideClick from "hooks/utils/useOutsideClick";
 import fetcher from "lib/fetcher";
 import { useRef, useState } from "react";
 import { mutate } from "swr";
+import { useSnackbar } from "notistack";
 
 export default function NewAnnouncement({ course, show, hide }) {
   show = show ?? true;
@@ -10,6 +11,7 @@ export default function NewAnnouncement({ course, show, hide }) {
   useOutsideClick(ref, hide);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const { enqueueSnackbar } = useSnackbar();
   return (
     <div
       className={classNames(
@@ -49,7 +51,11 @@ export default function NewAnnouncement({ course, show, hide }) {
                 content,
                 course: course._id,
               });
-              console.log("course", json);
+              hide();
+              setTitle("");
+              setContent("");
+              // console.log("course", json);
+              enqueueSnackbar("announcement created", { variant: "success" });
               mutate([
                 "api/announcement/list",
                 { shortName: course.shortName },

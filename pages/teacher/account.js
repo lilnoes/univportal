@@ -31,18 +31,7 @@ export default function Home() {
           </div>
         </div>
       }
-      left={<LeftMenu />}
-      right={
-        <div>
-          <button onClick={() => setShowAnnouncement(true)}>
-            New Announcement
-          </button>
-          <NewAnnouncement
-            show={showAnnouncement}
-            hide={() => setShowAnnouncement(false)}
-          />
-        </div>
-      }
+      right={<div></div>}
     />
   );
 }

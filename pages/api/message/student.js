@@ -15,9 +15,9 @@ export default withSessionRoute(async (req, res) => {
   const messages = await messagesCollection
     .find({
       $or: [
-        { course: courseId },
-        { from: user._id, to: teacherId },
-        { to: user._id, from: teacherId },
+        { course: courseId, to: null },
+        { from: user._id, to: teacherId, course: courseId },
+        { to: user._id, from: teacherId, course: courseId },
       ],
     })
     .toArray();
