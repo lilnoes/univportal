@@ -32,7 +32,7 @@ export default function Footer({ base, selected }) {
       />
       <MenuItem
         Icon={Education}
-        display="Courses"
+        display="Dersler"
         setActive={() => {
           setShowCourses(true);
         }}
@@ -40,7 +40,7 @@ export default function Footer({ base, selected }) {
       />
       <MenuItem
         Icon={Inbox}
-        display="Inbox"
+        display="Mesajlar"
         setActive={() => {
           router.replace(`/${base}/inbox`);
         }}
@@ -48,7 +48,7 @@ export default function Footer({ base, selected }) {
       />
       <MenuItem
         Icon={Person}
-        display="Account"
+        display="Hesap"
         setActive={() => {
           router.replace(`/${base}/account`);
         }}
@@ -56,7 +56,7 @@ export default function Footer({ base, selected }) {
       />
       <MenuItem
         Icon={Logout}
-        display="Logout"
+        display="Çikiş"
         setActive={async () => {
           await fetcher("/api/account/logout");
           mutate("/api/account");

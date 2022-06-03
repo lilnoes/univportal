@@ -18,21 +18,21 @@ export default function Home({ course }) {
     <Template
       title={
         <h1 className="text-3xl p-2 text-primaryd font-bold">
-          {course.name.toUpperCase()} - QUIZZES
+          {course.name.toUpperCase()} - SINAVLAR
         </h1>
       }
       main={
         <div className="">
           <table className="w-full">
             <tr className="p-2 font-bold text-xl border-b">
-              <td className="p-2">Name</td>
-              <td>Start at</td>
-              <td>File</td>
-              <td>Duration</td>
-              <td>Max points</td>
+              <td className="p-2">Ad</td>
+              <td>Başlangiç</td>
+              <td>Dosya</td>
+              <td>Süre</td>
+              <td>Yüksek puan</td>
             </tr>
             {quizzes?.map((quiz) => (
-              <tr className="border-b">
+              <tr key={quiz._id} className="border-b">
                 <td className="p-2">
                   <Link
                     href={`/teacher/course/${course.shortName}/quiz/${quiz.shortName}`}
@@ -42,7 +42,7 @@ export default function Home({ course }) {
                 </td>
                 <td>{moment(quiz.date).format("MMM D, YYYY")}</td>
                 <td>File</td>
-                <td>{quiz.duration} mins</td>
+                <td>{quiz.duration} dk.</td>
                 <td>{quiz.max}</td>
               </tr>
             ))}
@@ -56,7 +56,7 @@ export default function Home({ course }) {
             className="bg-primaryd p-2 text-white"
             onClick={() => setShowQuiz(true)}
           >
-            New Quiz
+            Yeni sınav
           </button>
           <NewQuiz
             course={course}

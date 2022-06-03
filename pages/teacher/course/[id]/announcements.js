@@ -17,7 +17,7 @@ export default function Home({ course }) {
     <Template
       title={
         <h1 className="text-3xl p-2 text-primaryd font-bold">
-          {course.name.toUpperCase()} - Announcements
+          {course.name.toUpperCase()} - Duyurular
         </h1>
       }
       main={
@@ -31,14 +31,14 @@ export default function Home({ course }) {
           ))}
         </div>
       }
-      left={<LeftMenu base={`teacher/course/${course.shortName}`}/>}
+      left={<LeftMenu base={`teacher/course/${course.shortName}`} />}
       right={
         <div className="px-1">
           <button
             className="p-2 bg-primaryd text-white"
             onClick={() => setShowAnnouncement(true)}
           >
-            New Announcement
+            Yeni duyuru
           </button>
           <NewAnnouncement
             course={course}

@@ -4,6 +4,7 @@ import { departments, years } from "lib/config";
 import fetcher from "lib/fetcher";
 import { useRef, useState } from "react";
 import { mutate } from "swr";
+import { useSnackbar } from "notistack";
 
 export default function NewCourseModal({ show, hide }) {
   show = show ?? true;
@@ -15,6 +16,7 @@ export default function NewCourseModal({ show, hide }) {
   const [description, setDescription] = useState("");
   const [requirements, setRequirements] = useState("");
   useOutsideClick(ref, hide);
+  const { enqueueSnackbar } = useSnackbar();
   return (
     <div
       className={classNames(
@@ -27,7 +29,7 @@ export default function NewCourseModal({ show, hide }) {
         className="w-[40%] mt-10 rounded-lg shadow-lg h-fit bg-white p-3 text-primaryd font-bold"
       >
         <div className="mb-5">
-          <label className="block">Course Name</label>
+          <label className="block">Ad</label>
           <input
             className="w-full outline-none border-[1px] border-primaryl"
             type="text"
@@ -36,7 +38,7 @@ export default function NewCourseModal({ show, hide }) {
           />
         </div>
         <div className="mb-5">
-          <label className="block">Course Short Name</label>
+          <label className="block">Kısa ad</label>
           <input
             className="w-full outline-none border-[1px] border-primaryl"
             type="text"
@@ -45,7 +47,7 @@ export default function NewCourseModal({ show, hide }) {
           />
         </div>
         <div className="mb-5">
-          <label className="block">Year</label>
+          <label className="block">Yıl</label>
           <select
             className="w-full outline-none border-[1px] border-primaryl"
             value={year}
@@ -57,7 +59,7 @@ export default function NewCourseModal({ show, hide }) {
           </select>
         </div>
         <div className="mb-5">
-          <label className="block">Department</label>
+          <label className="block">Departman</label>
           <select
             className="w-full outline-none border-[1px] border-primaryl"
             value={department}
@@ -69,7 +71,7 @@ export default function NewCourseModal({ show, hide }) {
           </select>
         </div>
         <div className="mb-5">
-          <label className="block">Description</label>
+          <label className="block">Tanım</label>
           <textarea
             className="w-full outline-none border-[1px] border-primaryl"
             value={description}
@@ -77,7 +79,7 @@ export default function NewCourseModal({ show, hide }) {
           />
         </div>
         <div className="mb-5">
-          <label className="block">Requirements</label>
+          <label className="block">Gereksinim</label>
           <textarea
             className="w-full outline-none border-[1px] border-primaryl"
             value={requirements}
@@ -95,16 +97,23 @@ export default function NewCourseModal({ show, hide }) {
                 description,
                 requirements,
               });
-              console.log("json", json);
+              // console.log("json", json);
+              enqueueSnackbar(`ders ${name} oluşturlmuş`, {
+                variant: "success",
+              });
               await mutate("/api/course/list");
               hide();
+              setName("");
+              setShortName("");
+              setDescription("");
+              setRequirements("");
             }}
             className="grow bg-primaryd text-white text-2xl p-2 rounded-lg"
           >
-            Submit
+            Oluştur
           </button>
           <button onClick={hide} className="grow text-red-700">
-            Cancel
+            İptal
           </button>
         </div>
       </div>

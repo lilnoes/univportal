@@ -30,7 +30,7 @@ export default function Home({ course, grades }) {
       base={"student"}
       title={
         <h1 className="text-3xl p-2 text-primaryd font-bold">
-          {course.name} - Dashboard
+          {course.name.toUpperCase()} - Dashboard
         </h1>
       }
       main={
@@ -38,7 +38,7 @@ export default function Home({ course, grades }) {
           <Line data={data} options={options} />
         </div>
       }
-      left={<LeftMenu base={"student"} />}
+      left={<LeftMenu base={`student/course/${course.shortName}`} />}
     />
   );
 }

@@ -4,13 +4,14 @@ import useOutsideClick from "hooks/utils/useOutsideClick";
 import fetcher from "lib/fetcher";
 import { useRef } from "react";
 import { mutate } from "swr";
+import { useSnackbar } from "notistack";
 
 export default function AcceptStudents({ course, show, hide }) {
   show = show ?? true;
   const ref = useRef(null);
   useOutsideClick(ref, hide);
+  const { enqueueSnackbar } = useSnackbar();
   const { waitings } = useWaitings(course?.shortName);
-  console.log("w", waitings);
   return (
     <div
       className={classNames(
@@ -22,18 +23,16 @@ export default function AcceptStudents({ course, show, hide }) {
         ref={ref}
         className="w-[60%] mt-10 rounded-lg shadow-lg h-fit bg-white p-3 text-primaryd"
       >
-        <h1 className="text-2xl text-secondaryd font-bold mb-5">
-          Pending approvals
-        </h1>
+        <h1 className="text-2xl text-secondaryd font-bold mb-5">Bekleyenler</h1>
         <table className="w-full">
           <tr className="font-bold text-xl border-b">
-            <td className="p-3">Name</td>
-            <td>Year</td>
-            <td>Faculty</td>
-            <td>Action</td>
+            <td className="p-3">İsim</td>
+            <td>Yıl</td>
+            <td>Departman</td>
+            <td>Aksiyon</td>
           </tr>
           {waitings?.map((waiting) => (
-            <tr className="border-b">
+            <tr key={waiting._id} className="border-b">
               <td className="p-3">
                 {waiting.student.firstName} {waiting.student.lastName}
               </td>
@@ -47,16 +46,19 @@ export default function AcceptStudents({ course, show, hide }) {
                       const json = await fetcher("/api/course/allow", {
                         enrollment: waiting._id,
                       });
-                      console.log("j", json);
+                      enqueueSnackbar(
+                        `${waiting.student.lastName}'i kabul ettin`,
+                        { variant: "success" }
+                      );
                       mutate([
                         "/api/course/waiting",
                         { shortName: course.shortName },
                       ]);
                     }}
                   >
-                    Allow
+                    Kabul
                   </button>
-                  <button className="text-red-700">Deny</button>
+                  <button className="text-red-700">Reddet</button>
                 </div>
               </td>
             </tr>
@@ -64,7 +66,7 @@ export default function AcceptStudents({ course, show, hide }) {
         </table>
 
         <button className="text-red-700 mt-3" onClick={hide}>
-          Close
+          Kapat
         </button>
       </div>
     </div>

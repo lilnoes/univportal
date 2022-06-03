@@ -22,7 +22,7 @@ export default function AvailableCourses({ show, hide }) {
         className="w-[60%] mt-10 rounded-lg shadow-lg h-fit bg-white p-3 text-primaryd font-bold"
       >
         <h1 className="text-2xl text-secondaryd font-bold mb-5">
-          Available courses
+          Mevcut dersler
         </h1>
         {courses?.map((c) => {
           const { course, creator, status } = c;
@@ -32,7 +32,7 @@ export default function AvailableCourses({ show, hide }) {
                 <div>
                   <h2 className="font-bold">{course.name.toUpperCase()}</h2>
                   <h3 className="text-gray-700">
-                    {creator.title} {creator.firstName}
+                    {creator.title} {creator.firstName.toUpperCase()}
                   </h3>
                 </div>
                 <div>
@@ -47,17 +47,17 @@ export default function AvailableCourses({ show, hide }) {
                         console.log("jo", json);
                       }}
                     >
-                      JOIN
+                      KATIL
                     </button>
                   )}
                   {status == "waiting" && (
                     <button className="bg-secondaryd text-white rounded-lg p-2">
-                      WAITING
+                      BEKLIYOR
                     </button>
                   )}
                   {status == "accepted" && (
                     <button className="bg-secondaryd text-white rounded-lg p-2">
-                      ACCEPTED
+                      KABUL EDİLDİ
                     </button>
                   )}
                 </div>
@@ -68,7 +68,7 @@ export default function AvailableCourses({ show, hide }) {
         })}
 
         <button className="mt-5 text-red-600" onClick={hide}>
-          Close
+          Kapat
         </button>
       </div>
     </div>

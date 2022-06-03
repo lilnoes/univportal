@@ -15,7 +15,7 @@ export default function Home({ announcements, courses }) {
   return (
     <Template
       base="student"
-      title={<h1 className="text-3xl p-2 text-primaryd font-bold">Courses</h1>}
+      title={<h1 className="text-3xl p-2 text-primaryd font-bold">Dersler</h1>}
       main={
         <>
           <div className="w-full flex flex-nowrap">
@@ -23,6 +23,7 @@ export default function Home({ announcements, courses }) {
               const course = c.course;
               return (
                 <div
+                  key={c._id}
                   onClick={() =>
                     router.push(`/student/course/${course.shortName}`)
                   }
@@ -49,7 +50,7 @@ export default function Home({ announcements, courses }) {
             className="underline text-xl mb-3"
             onClick={() => setShowAvailableCourses(true)}
           >
-            Available courses
+            Mevcut dersler
           </button>
           <AvailableCourses
             show={showAvailableCourses}

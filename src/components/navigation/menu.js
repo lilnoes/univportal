@@ -14,26 +14,28 @@ export default function LeftMenu({ base, course }) {
         </li>
         <li className="my-5">
           <Link href={`/${base}/announcements`}>
-            <a className="underline my-5">ANNOUNCEMENTS</a>
-          </Link>
-        </li>
-        <li className="my-5">
-          <Link href={`/${base}/inbox`}>
-            <a className="underline my-5">MESSAGES</a>
+            <a className="underline my-5">DUYURULAR</a>
           </Link>
         </li>
 
+        {user?.type != "teacher" && (
+          <li className="my-5">
+            <Link href={`/${base}/grades`}>
+              <a className="underline my-5">PUANLAR</a>
+            </Link>
+          </li>
+        )}
         {user?.type == "teacher" && (
           <li className="my-5">
             <Link href={`/${base}/people`}>
-              <a className="underline my-5">PEOPLE</a>
+              <a className="underline my-5">ÖĞRENCİLER</a>
             </Link>
           </li>
         )}
         {user?.type == "teacher" && (
           <li className="my-5">
             <Link href={`/${base}/quiz`}>
-              <a className="underline my-5">QUIZZES</a>
+              <a className="underline my-5">SINAVLAR</a>
             </Link>
           </li>
         )}

@@ -15,7 +15,7 @@ export default function Home() {
       <div className="p-10 h-fit mt-10 bg-primary flex justify-center">
         <div className="w-full text-textp flex flex-col justify-start items-center mb-3">
           <h1 className="font-bold mb-5 text-2xl">BETTER CANVAS</h1>
-          <h1 className="font-bold">USER LOGIN</h1>
+          <h1 className="font-bold">KULLANICI GİRİŞİ</h1>
           <div>
             <input
               className="my-3 p-1 rounded text-primaryd font-bold"
@@ -29,7 +29,7 @@ export default function Home() {
             <input
               className="my-3 p-1 rounded text-primaryd font-bold"
               type="password"
-              placeholder="password"
+              placeholder="şifre"
               value={password}
               onChange={(val) => setPassword(val.target.value)}
             />
@@ -47,16 +47,16 @@ export default function Home() {
                 if (user.type == "teacher") router.push("/teacher");
                 if (user.type == "student") router.push("/student");
               }}
-              className="bg-textp text-secondary font-extrabold p-2 rounded-lg"
+              className="bg-textp text-secondary font-extrabold py-2 px-4 rounded-lg"
             >
-              LOGIN
+              GİR
             </button>
           </div>
           <div>
             <p>
-              Don't have an account?
+              Hesabın yok mu?
               <Link href="/account/register">
-                <a className="text-secondaryd ml-3">REGISTER</a>
+                <a className="text-secondaryd ml-3">KAYDOL</a>
               </Link>
             </p>
           </div>

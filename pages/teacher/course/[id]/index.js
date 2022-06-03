@@ -18,17 +18,17 @@ export default function Home({ course, count }) {
     <Template
       title={
         <h1 className="text-3xl p-2 text-primaryd font-bold">
-          {course.name} - {course.shortName}
+          {course.name.toUpperCase()} - {course.shortName.toUpperCase()}
         </h1>
       }
       main={
         <div className="text-xl">
-          <h2 className="font-bold">{course.name}</h2>
-          <h2 className="text-gray-500">{course.shortName}</h2>
-          <h2 className="text-gray-500 text-sm">Students: {count}</h2>
-          <h2 className="mt-5 font-bold">Description</h2>
+          <h2 className="font-bold">{course.name.toUpperCase()}</h2>
+          <h2 className="text-gray-500">{course.shortName.toUpperCase()}</h2>
+          <h2 className="text-gray-500 text-sm">öğrenciler: {count}</h2>
+          <h2 className="mt-5 font-bold">Tanım</h2>
           <p className="text-gray-500 mb-10">{course.description}</p>
-          <h2 className="mt-5 font-bold">Requirements</h2>
+          <h2 className="mt-5 font-bold">Gereksinim</h2>
           <p className="text-gray-500 mb-10">{course.requirements}</p>
         </div>
       }
@@ -39,7 +39,7 @@ export default function Home({ course, count }) {
             className="my-3 block bg-primaryd p-2 text-white"
             onClick={() => setShowAnnouncement(true)}
           >
-            New Announcement
+            Yeni duyuru
           </button>
           <NewAnnouncement
             course={course}
@@ -50,7 +50,7 @@ export default function Home({ course, count }) {
             className="my-3 block bg-primaryd p-2 text-white"
             onClick={() => setShowQuiz(true)}
           >
-            New Quiz
+            Yeni sınav
           </button>
           <NewQuiz
             course={course}
@@ -61,7 +61,7 @@ export default function Home({ course, count }) {
             className="my-3 block bg-primaryd p-2 text-white"
             onClick={() => setShowAcceptStudents(true)}
           >
-            Accept/Deny students
+            Kabul/İptal öğrenciler
           </button>
           <AcceptStudents
             course={course}

@@ -9,21 +9,23 @@ export default function Home({ course, people }) {
     <Template
       title={
         <h1 className="text-3xl p-2 text-primaryd font-bold">
-          {course.name} - People
+          {course.name.toUpperCase()} - Öğrenciler
         </h1>
       }
       main={
         <div className="">
           <table className="w-full">
             <tr className="p-2 font-bold text-xl border-b">
-              <td className="p-2">Name</td>
-              <td>Surname</td>
-              <td>Country</td>
+              <td className="p-2">İsim</td>
+              <td>Soyisim</td>
+              <td>Ülke</td>
             </tr>
             {people?.map((member) => (
               <tr key={member._id} className="border-b">
-                <td className="p-2">{member.student.firstName}</td>
-                <td>{member.student.lastName}</td>
+                <td className="p-2">
+                  {member.student.firstName.toUpperCase()}
+                </td>
+                <td>{member.student.lastName.toUpperCase()}</td>
                 <td>{member.student.country}</td>
               </tr>
             ))}

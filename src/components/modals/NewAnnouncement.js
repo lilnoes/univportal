@@ -23,10 +23,10 @@ export default function NewAnnouncement({ course, show, hide }) {
         ref={ref}
         className="w-[40%] mt-10 rounded-lg shadow-lg h-fit bg-white p-3 text-primaryd font-bold"
       >
-        <h1 className="">New Announcement</h1>
+        <h1 className="">Yeni duyuru</h1>
         <hr className="my-5" />
         <div className="mb-5">
-          <label className="block">Title</label>
+          <label className="block">konu</label>
           <input
             className="w-full outline-none border-[1px] border-primaryl"
             type="text"
@@ -35,7 +35,7 @@ export default function NewAnnouncement({ course, show, hide }) {
           />
         </div>
         <div className="mb-5">
-          <label className="block">Content</label>
+          <label className="block">İçerik</label>
           <textarea
             className="w-full outline-none border-[1px] border-primaryl h-[100px]"
             value={content}
@@ -55,17 +55,19 @@ export default function NewAnnouncement({ course, show, hide }) {
               setTitle("");
               setContent("");
               // console.log("course", json);
-              enqueueSnackbar("announcement created", { variant: "success" });
+              enqueueSnackbar("yeni duyuru oluşturuldu", {
+                variant: "success",
+              });
               mutate([
                 "api/announcement/list",
                 { shortName: course.shortName },
               ]);
             }}
           >
-            Create
+            Oluştur
           </button>
           <button onClick={hide} className="grow text-red-700">
-            Cancel
+            İptal
           </button>
         </div>
       </div>

@@ -11,7 +11,7 @@ export default function Home({ user, announcements }) {
     <Template
       main={
         <>
-          <h2 className="font-bold">Announcements</h2>
+          <h2 className="font-bold">Duyurular</h2>
           <ul className="list-disc">
             {announcements?.map((announcement) => (
               <li key={announcement._id} className="my-2">
@@ -27,7 +27,7 @@ export default function Home({ user, announcements }) {
             className="p-2 bg-primaryd text-white"
             onClick={() => setShowCourse(true)}
           >
-            New Course
+            Yeni ders
           </button>
           <NewCourseModal show={showCourse} hide={() => setShowCourse(false)} />
         </div>

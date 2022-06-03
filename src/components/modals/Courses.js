@@ -29,9 +29,9 @@ export default function Courses({ base, show, hide }) {
               className="my-5 p-5 shadow-lg bg-white rounded-xl"
             >
               <Link href={`/${base}/course/${course.shortName}`}>
-                <a className="underline">{course.name}</a>
+                <a className="underline">{course.name.toUpperCase()}</a>
               </Link>
-              <h2>{course.shortName}</h2>
+              <h2>{course.shortName.toUpperCase()}</h2>
             </div>
           );
         })}

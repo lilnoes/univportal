@@ -39,18 +39,19 @@ export default function Home({ course, quiz, grades: __grades }) {
         <div className="">
           <table className="w-full">
             <tr className="p-2 font-bold text-xl border-b">
-              <td className="p-2">Student Name</td>
-              <td>Date</td>
-              <td>Points</td>
-              <td>Out Of</td>
+              <td className="p-2">Öğrencinin ismi</td>
+              <td>Tarih</td>
+              <td>Puan</td>
+              <td>Üzerinde</td>
             </tr>
             {grades &&
               Object.keys(grades).map((key) => {
                 const grade = grades[key];
                 return (
-                  <tr className="border-b">
+                  <tr key={grade._id} className="border-b">
                     <td className="p-2">
-                      {grade.student.firstName} {grade.student.lastName}
+                      {grade.student.firstName.toUpperCase()}{" "}
+                      {grade.student.lastName.toUpperCase()}
                     </td>
                     <td>{moment(quiz.date).format("MMM DD, YYYY")}</td>
                     <td>

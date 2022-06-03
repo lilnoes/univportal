@@ -40,23 +40,23 @@ export default function Home() {
       <div className="py-2 px-10 rounded-2xl h-fit mt-5 bg-primary flex justify-center">
         <div className="w-full text-textp flex flex-col justify-start items-center">
           <h1 className="font-bold mb-5 text-2xl">BETTER CANVAS</h1>
-          <h1 className="font-bold">CREATE USER</h1>
+          <h1 className="font-bold">YENİ KULLANICI</h1>
           <div className="my-2">
-            <label className="block text-sm">First Name</label>
+            <label className="block text-sm">İsim</label>
             <input
               className="p-1 rounded text-primaryd font-bold"
               type="text"
-              placeholder="First name"
+              placeholder="İsim"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
             />
           </div>
           <div className="my-2">
-            <label className="block text-sm">Last Name</label>
+            <label className="block text-sm">Soyisim</label>
             <input
               className="p-1 rounded text-primaryd font-bold"
               type="text"
-              placeholder="Last name"
+              placeholder="soyisim"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
             />
@@ -73,18 +73,18 @@ export default function Home() {
           </div>
           {type == "teacher" && (
             <div className="my-2">
-              <label className="block text-sm">Title</label>
+              <label className="block text-sm">Unvan</label>
               <input
                 className="p-1 rounded text-primaryd font-bold"
                 type="text"
-                placeholder="Title"
+                placeholder="Unvan"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
             </div>
           )}
           <div className="my-2 w-full">
-            <label className="block text-sm">Country</label>
+            <label className="block text-sm">Ülke</label>
             <select
               className="p-1 rounded text-primaryd font-bold"
               value={country}
@@ -97,7 +97,7 @@ export default function Home() {
           </div>
           {type == "student" && (
             <div className="my-2 w-full">
-              <label className="block text-sm">Department</label>
+              <label className="block text-sm">Departman</label>
               <select
                 className="p-1 rounded text-primaryd font-bold"
                 value={department}
@@ -111,7 +111,7 @@ export default function Home() {
           )}
           {type == "student" && (
             <div className="my-2 w-full">
-              <label className="block text-sm">Year</label>
+              <label className="block text-sm">Yıl</label>
               <select
                 className="p-1 rounded text-primaryd font-bold"
                 value={year}
@@ -127,7 +127,7 @@ export default function Home() {
             <input
               className="p-1 rounded text-primaryd font-bold"
               type="password"
-              placeholder="password"
+              placeholder="şifre"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -150,14 +150,14 @@ export default function Home() {
               }}
               className="bg-textp text-secondary font-extrabold p-2 rounded-lg"
             >
-              REGISTER
+              KAYDOL
             </button>
           </div>
           <div>
             <p>
-              Have an account?
+              Hesabın var mı?
               <Link href="/account/login">
-                <a className="text-secondaryd ml-3">LOGIN</a>
+                <a className="text-secondaryd ml-3">GİR</a>
               </Link>
             </p>
           </div>

@@ -31,7 +31,7 @@ export default function Home({ courses, user }) {
               const creator = c.creator;
               const course = c.course;
               return (
-                <Fragment>
+                <Fragment key={c._id}>
                   <div className="flex justify-between p-2">
                     <div
                       className="cursor-pointer"

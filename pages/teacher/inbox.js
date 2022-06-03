@@ -26,7 +26,7 @@ export default function Home({ courses, user, students }) {
           <div className="w-[40%]">
             <h2 className="bg-secondaryd text-white font-bold p-2">ALICILAR</h2>
             {courses?.map((course) => (
-              <Fragment>
+              <Fragment key={course._id}>
                 <div
                   className="flex justify-between p-2 cursor-pointer"
                   onClick={() => setRecipient(course)}
@@ -41,7 +41,7 @@ export default function Home({ courses, user, students }) {
               </Fragment>
             ))}
             {students?.map((student) => (
-              <Fragment>
+              <Fragment key={student._id}>
                 <div
                   className="flex justify-between p-2 cursor-pointer"
                   onClick={() => setRecipient(student)}
