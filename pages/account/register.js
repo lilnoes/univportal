@@ -1,18 +1,14 @@
 import fetcher from "lib/fetcher";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useSnackbar } from "notistack";
 import { useEffect, useState } from "react";
+import { departments, years } from "lib/config";
 
 export default function Home() {
   const router = useRouter();
 
-  const departments = [
-    "Computer engineering",
-    "Chemical engineering",
-    "Electronics",
-  ];
-  const countries = ["Rwanda", "Turkey", "USA"];
-  const titles = ["Professor", "Madam", "Mister"];
+  const titles = ["Profesör", "Doktor", "Asistan"];
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -31,6 +27,8 @@ export default function Home() {
   useEffect(() => {
     if (type == "student") setTitle("student");
   }, [type]);
+
+  const { enqueueSnackbar } = useSnackbar();
 
   return (
     <div
@@ -146,7 +144,10 @@ export default function Home() {
                   year,
                   password,
                 });
-                if (data.error == "") router.replace("/account/login");
+                if (data.error == "") {
+                  router.replace("/account/login");
+                  enqueueSnackbar(`yeni kullanıcı "${firstName}" oluşturuldu`);
+                }
               }}
               className="bg-textp text-secondary font-extrabold p-2 rounded-lg"
             >

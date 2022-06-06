@@ -1,12 +1,14 @@
 import fetcher from "lib/fetcher";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useSnackbar } from "notistack";
 import { useState } from "react";
 
 export default function Home() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { enqueueSnackbar } = useSnackbar();
   return (
     <div
       className="w-full h-screen flex justify-center"
@@ -44,6 +46,9 @@ export default function Home() {
                 });
                 const user = json?.data?.user;
                 if (!user) return;
+                enqueueSnackbar("başarıyla oturum açtınız", {
+                  variant: "success",
+                });
                 if (user.type == "teacher") router.push("/teacher");
                 if (user.type == "student") router.push("/student");
               }}

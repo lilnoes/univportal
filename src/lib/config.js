@@ -8,9 +8,10 @@ export const ironOptions = {
 };
 
 export const departments = [
-  "Computer engineering",
-  "Chemical engineering",
-  "Electronics",
+  "Bilgisayar Mühendisliği",
+  "Kimya Mühendisliği",
+  "İşleyme",
 ];
+export const countries = ["Rwanda", "Türkiye", "USA"];
 
 export const years = [1, 2, 3, 4];
