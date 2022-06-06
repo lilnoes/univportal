@@ -3,12 +3,11 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useSnackbar } from "notistack";
 import { useEffect, useState } from "react";
-import { departments, years } from "lib/config";
+import { departments, years, countries, titles } from "lib/config";
 
 export default function Home() {
   const router = useRouter();
 
-  const titles = ["Profesör", "Doktor", "Asistan"];
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -26,6 +25,7 @@ export default function Home() {
 
   useEffect(() => {
     if (type == "student") setTitle("student");
+    else setTitle(titles[0]);
   }, [type]);
 
   const { enqueueSnackbar } = useSnackbar();
@@ -146,7 +146,9 @@ export default function Home() {
                 });
                 if (data.error == "") {
                   router.replace("/account/login");
-                  enqueueSnackbar(`yeni kullanıcı "${firstName}" oluşturuldu`);
+                  enqueueSnackbar(`yeni kullanıcı "${firstName}" oluşturuldu`, {
+                    variant: "success",
+                  });
                 }
               }}
               className="bg-textp text-secondary font-extrabold p-2 rounded-lg"

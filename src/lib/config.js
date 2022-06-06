@@ -14,4 +14,6 @@ export const departments = [
 ];
 export const countries = ["Rwanda", "Türkiye", "USA"];
 
+export const titles = ["Profesör", "Doktor", "Asistan"];
+
 export const years = [1, 2, 3, 4];

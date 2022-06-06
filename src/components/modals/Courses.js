@@ -2,12 +2,14 @@ import classNames from "classnames";
 import useCourses from "hooks/courses/useCourses";
 import useOutsideClick from "hooks/utils/useOutsideClick";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useRef } from "react";
 
 export default function Courses({ base, show, hide }) {
   base = base ? base : "teacher";
   show = show ?? true;
   const ref = useRef();
+  const router = useRouter();
   const { courses } = useCourses();
   useOutsideClick(ref, hide);
   return (
@@ -28,9 +30,15 @@ export default function Courses({ base, show, hide }) {
               key={course._id}
               className="my-5 p-5 shadow-lg bg-white rounded-xl"
             >
-              <Link href={`/${base}/course/${course.shortName}`}>
-                <a className="underline">{course.name.toUpperCase()}</a>
-              </Link>
+              <a
+                className="underline cursor-pointer"
+                onClick={() => {
+                  router.push(`/${base}/course/${course.shortName}`);
+                  hide();
+                }}
+              >
+                {course.name.toUpperCase()}
+              </a>
               <h2>{course.shortName.toUpperCase()}</h2>
             </div>
           );
